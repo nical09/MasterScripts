@@ -32,7 +32,7 @@ function completeCAP(userId) // option CapId
 	
 	if (cdWrite.getSuccess())
 	{ 	
-		logDebug("Set CAP *Completed by Staff* to " + userId) + "\nSet CAP *Completed by Dept* " + iName.getDeptOfUser() + "\nSet CAP *Completed Date* " + sysDate.toString(); 
+		logDebug("Set CAP *Completed by Staff* to " + userId + "\nSet CAP *Completed by Dept* " + iName.getDeptOfUser() + "\nSet CAP *Completed Date* " + sysDate.toString());
 	}
 	else
 	{ 	

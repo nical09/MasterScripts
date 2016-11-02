@@ -16,19 +16,22 @@ function editRefParcelAttribute(attributeName, attributeValue, parcelNumber) //T
 	var matchedParcel = false;
 	var updateAllParcels = false;
 	var updatedParcel = false;
+	var vCapId = null;
 	var pb = aa.proxyInvoker.newInstance("com.accela.aa.aamain.parcel.ParcelBusiness").getOutput();
 
-	var vCapId = null;
 	if (arguments.length > 3)
 		vCapId = arguments[3];
 	else
 		vCapId = capId;
+
+		logDebug("editRefParcelAttribute: Processing Record " + vCapId.getCustomID())
 	
 	var capPrclArr = aa.parcel.getParcelDailyByCapID(vCapId, null).getOutput();
+
 	if (capPrclArr != null) {
 		for (x in capPrclArr) {
 			// Check if the parcel number passed in matches and update the one, if no parcel number supplied update all parcels
-			if(parcelNumber){
+			if(!matches(parcelNumber,null,undefined,"")){
 				if(parcelNumber.equals(capPrclArr[x].getParcelNumber())){
 					matchedParcel = true;
 				}
