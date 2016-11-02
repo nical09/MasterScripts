@@ -9,6 +9,12 @@
  * @param params {HashTable}
  * @param [userType] {string} Used to create email paramerters
  * @return params {HashTable}
+ *
+ * getUserDisciplines()
+ * @return disciplineArray {array}
+ *
+ * getUserDistricts()
+ * @return districtArray {array}
  */
 function userObj(vUserId){
 	this.userID = null;
@@ -50,7 +56,6 @@ function userObj(vUserId){
 		this.userStatus = iUserObj.getUserStatus();
 		this.billingRate = iUserObj.getRate1();
 		this.cashierID = iUserObj.getCashierID();
-		return true;
 	}
 	else{ logDebug("**ERROR retrieving user model for" + vUserId + " : " + iNameResult.getErrorMessage()) ; return false ; }
 	
@@ -71,4 +76,33 @@ function userObj(vUserId){
             return params;
             }
 
+	this.getUserDistricts = function () {
+		var result = aa.people.getUserDistricts(this.userID);
+		var userDistrictModelArray = result.getOutput();
+		var districtArray = new Array();
+		
+		for(iD in userDistrictModelArray){
+			var userDistrictModel = userDistrictModelArray[iD];
+			if(userDistrictModel.getRecStatus() == 'A'){
+				districtArray.push(userDistrictModel.getDistrict());
+			}
+		}
+		
+		return districtArray;
+	}
+	
+	this.getUserDisciplines = function () {
+		var result = aa.people.getUserDisciplines(this.userID);
+		var userDisciplineModelArray = result.getOutput();
+		var disciplineArray = new Array();
+		
+		for(iD in userDisciplineModelArray){
+			var userDisciplineModel = userDisciplineModelArray[iD];
+			if(userDisciplineModel.getRecStatus() == 'A'){
+				disciplineArray.push(userDisciplineModel.getDiscipline());
+			}
+		}
+		
+		return disciplineArray;
+	}	
 }

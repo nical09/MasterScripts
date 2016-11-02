@@ -5,9 +5,11 @@
 | Usage   : Accela Inc. Developed Master Script Functions.  This file should not be modified.  For custom
 			includes make additions and overrides to the INCLUDES_CUSTOM script file.
 |
-| Notes   : These functions are only available to the Application Submit Before master script
+| Notes   : For Application Submit Before see INCLUDES_ACCELA_FUNCTIONS_ASB
 |
 /------------------------------------------------------------------------------------------------------*/
+
+var INCLUDE_VERSION = "3.2.0";
 
 function getContactArrayBefore()
 	{
@@ -58,6 +60,8 @@ function getContactArrayBefore()
 		}
 	return cArray;
 	}
+ 
+ 
 function getCSLBInfoBefore()
 	{
 	// Requires getNode and getProp functions.
@@ -101,6 +105,8 @@ function getCSLBInfoBefore()
 		}
 	}
 
+ 
+ 
 function getGISBufferInfo(svc,layer,numDistance)
 	{
 	// returns an array of associative arrays
@@ -168,6 +174,8 @@ function getGISBufferInfo(svc,layer,numDistance)
 		}
 	return retArray
 	}
+ 
+ 
 function getGISInfo(svc,layer,attributename)
 {
 	// use buffer info to get info on the current object by using distance 0
@@ -217,6 +225,8 @@ function getGISInfo(svc,layer,attributename)
 	
 	return retString
 }
+ 
+ 
 function getRelatedCapsByAddressBefore(ats) 
 //
 // returns the capId object of the parent.  Assumes only one parent!
@@ -276,7 +286,9 @@ function getRelatedCapsByAddressBefore(ats)
 		return retArr;
 		
 	}
-	function getRelatedCapsByParcelBefore(ats) 
+	 
+ 
+function getRelatedCapsByParcelBefore(ats) 
 //
 // appsubmitBefore script only.  Returns an array of capids that match the parcelValidatedNumber
 // ats, app type string to check for
@@ -319,6 +331,8 @@ function getRelatedCapsByAddressBefore(ats)
 		return retArr;
 		
 	}
+ 
+ 
 
 function loadAppSpecificBefore(thisArr) {
 	//
@@ -339,6 +353,8 @@ function loadAppSpecificBefore(thisArr) {
 		}
 	}
 
+ 
+ 
 function loadASITablesBefore() {
 
  	//
@@ -438,7 +454,9 @@ function loadASITables() {
 	  }
 
 	}
-	function loadParcelAttributes(thisArr) {
+	 
+ 
+function loadParcelAttributes(thisArr) {
 	//
 	// Returns an associative array of Parcel Attributes
 	// Optional second parameter, cap ID to load from
@@ -480,6 +498,8 @@ function loadASITables() {
 		thisArr["ParcelAttribute.PlanArea"] = fcapParcelObj[i].getPlanArea();
   		}
 	}
+ 
+ 
 function proximity(svc,layer,numDistance)  // optional: distanceType
 	{
 	// returns true if the app has a gis object in proximity
@@ -524,6 +544,8 @@ function proximity(svc,layer,numDistance)  // optional: distanceType
 		}
 	}
 
+ 
+ 
 function proximityToAttribute(svc,layer,numDistance,distanceType,attributeName,attributeValue)
 	{
 	// returns true if the app has a gis object in proximity that contains the attributeName = attributeValue
@@ -568,3 +590,5 @@ function proximityToAttribute(svc,layer,numDistance,distanceType,attributeName,a
 			}
 		}
 	}
+ 
+ 
