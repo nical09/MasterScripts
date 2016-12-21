@@ -7,7 +7,7 @@ function deleteTask(targetCapId,deleteTaskName)
  	if (workflowResult.getSuccess())
   	 	var wfObj = workflowResult.getOutput();
   	else
-  	  	{ logDebug("**ERROR: Failed to get workflow object: " + s_capResult.getErrorMessage()); return false; }
+  	  	{ logDebug("**ERROR: Failed to get workflow object: " + workflowResult.getErrorMessage()); return false; }
 
 	var tTask = null;
 

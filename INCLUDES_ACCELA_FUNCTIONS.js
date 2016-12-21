@@ -24,7 +24,7 @@ function activateTask(wfstr) // optional process name
 	if (workflowResult.getSuccess())
 		var wfObj = workflowResult.getOutput();
 	else {
-		logMessage("**ERROR: Failed to get workflow object: " + s_capResult.getErrorMessage());
+		logMessage("**ERROR: Failed to get workflow object: " + workflowResult.getErrorMessage());
 		return false;
 	}
 
@@ -71,7 +71,7 @@ function activeTasksCheck() {
 	if (workflowResult.getSuccess())
 		wfObj = workflowResult.getOutput();
 	else {
-		logDebug("**ERROR: Failed to get workflow object: " + s_capResult.getErrorMessage());
+		logDebug("**ERROR: Failed to get workflow object: " + workflowResult.getErrorMessage());
 		return false;
 	}
 
@@ -2057,7 +2057,7 @@ function assignTask(wfstr,username) // optional process name
  	if (workflowResult.getSuccess())
   	 	var wfObj = workflowResult.getOutput();
   	else
-  	  	{ logMessage("**ERROR: Failed to get workflow object: " + s_capResult.getErrorMessage()); return false; }
+  	  	{ logMessage("**ERROR: Failed to get workflow object: " + workflowResult.getErrorMessage()); return false; }
 	
 	for (i in wfObj)
 		{
@@ -2179,7 +2179,7 @@ function branchTask(wfstr,wfstat,wfcomment,wfnote) // optional process name
  	if (workflowResult.getSuccess())
   	 	var wfObj = workflowResult.getOutput();
   	else
-  	  	{ logMessage("**ERROR: Failed to get workflow object: " + s_capResult.getErrorMessage()); return false; }
+  	  	{ logMessage("**ERROR: Failed to get workflow object: " + workflowResult.getErrorMessage()); return false; }
 	
 	if (!wfstat) wfstat = "NA";
 	
@@ -2784,7 +2784,7 @@ function closeSubWorkflow(thisProcessID,wfStat) // optional capId
 	if (workflowResult.getSuccess())
 		var wfObj = workflowResult.getOutput();
 	else
-		{ logMessage("**ERROR: Failed to get workflow object: " + s_capResult.getErrorMessage()); return false; }
+		{ logMessage("**ERROR: Failed to get workflow object: " + workflowResult.getErrorMessage()); return false; }
 
 	for (i in wfObj)
 		{
@@ -2840,7 +2840,7 @@ function closeTask(wfstr,wfstat,wfcomment,wfnote) // optional process name
  	if (workflowResult.getSuccess())
   	 	var wfObj = workflowResult.getOutput();
   	else
-  	  	{ logMessage("**ERROR: Failed to get workflow object: " + s_capResult.getErrorMessage()); return false; }
+  	  	{ logMessage("**ERROR: Failed to get workflow object: " + workflowResult.getErrorMessage()); return false; }
 	
 	if (!wfstat) wfstat = "NA";
 	
@@ -4794,7 +4794,7 @@ function countActiveTasks(processName) {
 	if (countResult.getSuccess())
 		numOpen = countResult.getOutput().intValue();
 	else {
-		logMessage("**ERROR: Failed to get task count: " + s_capResult.getErrorMessage());
+		logMessage("**ERROR: Failed to get task count: " + countResult.getErrorMessage());
 		return false;
 	}
 
@@ -5819,7 +5819,9 @@ function dateNextOccur (pMonth, pDay, pDate)
  	if (workflowResult.getSuccess())
   	 	wfObj = workflowResult.getOutput();
   	else
-  	  	{ logMessage("**ERROR: Failed to get workflow object: " + s_capResult.getErrorMessage()); return false; }
+
+  	  	{ logMessage("**ERROR: Failed to get workflow object: " + workflowResult.getErrorMessage()); return false; }
+
 	
 	for (i in wfObj)
 		{
@@ -5846,7 +5848,7 @@ function deactivateTask(wfstr) // optional process name
 	if (workflowResult.getSuccess())
 		var wfObj = workflowResult.getOutput();
 	else {
-		logMessage("**ERROR: Failed to get workflow object: " + s_capResult.getErrorMessage());
+		logMessage("**ERROR: Failed to get workflow object: " + workflowResult.getErrorMessage());
 		return false;
 	}
 
@@ -5958,7 +5960,7 @@ function deleteTask(targetCapId,deleteTaskName)
  	if (workflowResult.getSuccess())
   	 	var wfObj = workflowResult.getOutput();
   	else
-  	  	{ logDebug("**ERROR: Failed to get workflow object: " + s_capResult.getErrorMessage()); return false; }
+  	  	{ logDebug("**ERROR: Failed to get workflow object: " + workflowResult.getErrorMessage()); return false; }
 
 	var tTask = null;
 
@@ -6909,7 +6911,7 @@ function editTaskACAVisibility(wfstr,visibleTask,visibleComment,restrictRole) //
  	if (workflowResult.getSuccess())
   	 	var wfObj = workflowResult.getOutput();
   	else
-  	  	{ logMessage("**ERROR: Failed to get workflow object: " + s_capResult.getErrorMessage()); return false; }
+  	  	{ logMessage("**ERROR: Failed to get workflow object: " + workflowResult.getErrorMessage()); return false; }
 	
 	for (i in wfObj)
 		{
@@ -6944,7 +6946,7 @@ function editTaskComment(wfstr,wfcomment) // optional process name
  	if (workflowResult.getSuccess())
   	 	var wfObj = workflowResult.getOutput();
   	else
-  	  	{ logMessage("**ERROR: Failed to get workflow object: " + s_capResult.getErrorMessage()); return false; }
+  	  	{ logMessage("**ERROR: Failed to get workflow object: " + workflowResult.getErrorMessage()); return false; }
 	
 	for (i in wfObj)
 		{
@@ -6981,7 +6983,7 @@ function editTaskDueDate(wfstr, wfdate) // optional process name.  if wfstr == "
 	if (workflowResult.getSuccess())
 		wfObj = workflowResult.getOutput();
 	else {
-		logMessage("**ERROR: Failed to get workflow object: " + s_capResult.getErrorMessage());
+		logMessage("**ERROR: Failed to get workflow object: " + workflowResult.getErrorMessage());
 		return false;
 	}
 
@@ -7015,7 +7017,7 @@ function editTaskSpecific(wfName,itemName,itemValue)  // optional: itemCap
  	if (workflowResult.getSuccess())
  		wfObj = workflowResult.getOutput();
  	else
- 		{ logDebug("**ERROR: Failed to get workflow object: " + s_capResult.getErrorMessage()); return false; }
+ 		{ logDebug("**ERROR: Failed to get workflow object: " + workflowResult.getErrorMessage()); return false; }
 
  	//
  	// Loop through workflow tasks
@@ -10545,7 +10547,7 @@ function getTaskDueDate(wfstr) // optional process name.
 	if (workflowResult.getSuccess())
 		wfObj = workflowResult.getOutput();
 	else {
-		logMessage("**ERROR: Failed to get workflow object: " + s_capResult.getErrorMessage());
+		logMessage("**ERROR: Failed to get workflow object: " + workflowResult.getErrorMessage());
 		return false;
 	}
 
@@ -11011,7 +11013,7 @@ function insertSubProcess(taskName, process, completeReqd) {
 	if (workflowResult.getSuccess())
 		wfObj = workflowResult.getOutput();
 	else {
-		logDebug("**ERROR: Failed to get workflow object: " + s_capResult.getErrorMessage());
+		logDebug("**ERROR: Failed to get workflow object: " + workflowResult.getErrorMessage());
 		return false;
 	}
 
@@ -11291,7 +11293,7 @@ function isTaskActive(wfstr) // optional process name
 	if (workflowResult.getSuccess())
 		wfObj = workflowResult.getOutput();
 	else {
-		logMessage("**ERROR: Failed to get workflow object: " + s_capResult.getErrorMessage());
+		logMessage("**ERROR: Failed to get workflow object: " + workflowResult.getErrorMessage());
 		return false;
 	}
 
@@ -11319,7 +11321,7 @@ function isTaskComplete(wfstr) // optional process name
 	if (workflowResult.getSuccess())
 		wfObj = workflowResult.getOutput();
 	else {
-		logMessage("**ERROR: Failed to get workflow object: " + s_capResult.getErrorMessage());
+		logMessage("**ERROR: Failed to get workflow object: " + workflowResult.getErrorMessage());
 		return false;
 	}
 
@@ -11347,7 +11349,7 @@ function isTaskStatus(wfstr, wfstat) // optional process name
 	if (workflowResult.getSuccess())
 		var wfObj = workflowResult.getOutput();
 	else {
-		logMessage("**ERROR: Failed to get workflow object: " + s_capResult.getErrorMessage());
+		logMessage("**ERROR: Failed to get workflow object: " + workflowResult.getErrorMessage());
 		return false;
 	}
 
@@ -12949,7 +12951,7 @@ function loadTasks(ltcapidstr)
 	if (workflowResult.getSuccess())
 		wfObj = workflowResult.getOutput();
 	else
-		{ logMessage("**ERROR: Failed to get workflow object: " + s_capResult.getErrorMessage()); return false; }
+		{ logMessage("**ERROR: Failed to get workflow object: " + workflowResult.getErrorMessage()); return false; }
 
 	for (i in wfObj)
 		{
@@ -13191,7 +13193,7 @@ function loopTask(wfstr, wfstat, wfcomment, wfnote) // optional process name
 	if (workflowResult.getSuccess())
 		var wfObj = workflowResult.getOutput();
 	else {
-		logMessage("**ERROR: Failed to get workflow object: " + s_capResult.getErrorMessage());
+		logMessage("**ERROR: Failed to get workflow object: " + workflowResult.getErrorMessage());
 		return false;
 	}
 
@@ -14533,7 +14535,7 @@ function resultWorkflowTask(wfstr, wfstat, wfcomment, wfnote) // optional proces
 	if (workflowResult.getSuccess())
 		var wfObj = workflowResult.getOutput();
 	else {
-		logMessage("**ERROR: Failed to get workflow object: " + s_capResult.getErrorMessage());
+		logMessage("**ERROR: Failed to get workflow object: " + workflowResult.getErrorMessage());
 		return false;
 	}
 
@@ -15112,7 +15114,7 @@ function setTask(wfstr, isOpen, isComplete) // optional process name isOpen, isC
 	if (workflowResult.getSuccess())
 		var wfObj = workflowResult.getOutput();
 	else {
-		logMessage("**ERROR: Failed to get workflow object: " + s_capResult.getErrorMessage());
+		logMessage("**ERROR: Failed to get workflow object: " + workflowResult.getErrorMessage());
 		return false;
 	}
 
@@ -15952,7 +15954,7 @@ function updateTask(wfstr, wfstat, wfcomment, wfnote) // optional process name, 
 	if (workflowResult.getSuccess())
 		var wfObj = workflowResult.getOutput();
 	else {
-		logMessage("**ERROR: Failed to get workflow object: " + s_capResult.getErrorMessage());
+		logMessage("**ERROR: Failed to get workflow object: " + workflowResult.getErrorMessage());
 		return false;
 	}
 
@@ -15991,7 +15993,7 @@ function updateTaskAssignedDate(wfstr, wfAssignDate) // optional process name
 	if (workflowResult.getSuccess())
 		var wfObj = workflowResult.getOutput();
 	else {
-		logDebug("**ERROR: Failed to get workflow object: " + s_capResult.getErrorMessage());
+		logDebug("**ERROR: Failed to get workflow object: " + workflowResult.getErrorMessage());
 		return false;
 	}
 
@@ -16031,7 +16033,7 @@ function updateTaskDepartment(wfstr, wfDepartment) // optional process name
 	if (workflowResult.getSuccess())
 		wfObj = workflowResult.getOutput();
 	else {
-		logDebug("**ERROR: Failed to get workflow object: " + s_capResult.getErrorMessage());
+		logDebug("**ERROR: Failed to get workflow object: " + workflowResult.getErrorMessage());
 		return false;
 	}
 
