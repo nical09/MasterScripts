@@ -5,12 +5,15 @@ function updateRefParcelToCap() //Takes Optional CapId
 		vCapId = arguments[0];
 	else
 		vCapId = capId;
-
+	
 	var capPrclArr = aa.parcel.getParcelDailyByCapID(vCapId, null).getOutput();
 	if (capPrclArr != null) {
+		var pb = aa.proxyInvoker.newInstance("com.accela.aa.aamain.parcel.ParcelBusiness").getOutput();
+		
 		for (x in capPrclArr) {
 			var prclObj = aa.parcel.getParceListForAdmin(capPrclArr[x].getParcelNumber(), null, null, null, null, null, null, null, null, null);
 			if (prclObj.getSuccess()) {
+				
 				var prclArr = prclObj.getOutput();
 				if (prclArr.length) {
 					var prcl = prclArr[0].getParcelModel();
@@ -18,10 +21,11 @@ function updateRefParcelToCap() //Takes Optional CapId
 					var capPrclObj = aa.parcel.warpCapIdParcelModel2CapParcelModel(vCapId, prcl);
 
 					if (capPrclObj.getSuccess()) {
-
+						
 						var capPrcl = capPrclObj.getOutput();
 						capPrcl.setL1ParcelNo(refParcelNumber);
 						aa.parcel.updateDailyParcelWithAPOAttribute(capPrcl);
+						pb.updateParcelDistrictWithRef(aa.getServiceProviderCode(), capPrcl, "ADMIN")
 						logDebug("Updated Parcel " + capPrclArr[x].getParcelNumber() + " with Reference Data");
 					} else
 						logDebug("Failed to Wrap Parcel Model for " + capPrclArr[x].getParcelNumber());
@@ -32,4 +36,4 @@ function updateRefParcelToCap() //Takes Optional CapId
 				logDebug("Failed to get reference Parcel for " + capPrclArr[x].getParcelNumber())
 		}
 	}
-}
+} 
