@@ -6997,7 +6997,7 @@ function editEstimatedJobValue(jobValue) // option CapId
 	bValScriptObj.setEstimatedValue(parseFloat(jobValue));
 	var vedtResults = aa.cap.editAddtInfo(cdScriptObj, bValScriptObj);
 	if (!vedtResults.getSuccess()) {
-		logDebug("**Error updating the job value in additional information" + edtResults.getErrorMessage());
+		logDebug("**Error updating the job value in additional information" + vedtResults.getErrorMessage());
 	}
 	if (vedtResults !== null && vedtResults.getSuccess() === true) {
 		logDebug("Updated the estimated job value to " + jobValue);
