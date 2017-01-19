@@ -1,5 +1,16 @@
+/**
+Title : getRefLicenseProf
+Purpose : Look up a Reference License Professional
+Functional Area : Licensing
+Description : Look up a Reference License Professional by the License Number and Optional License Type
+Script Type : EMSE, Pageflow, Batch
+Call Example: getRefLicenseProf("RN17-00058","Nurse Practitioner");
 
-function getRefLicenseProf(refstlic)
+@param refstlic {String}
+@param [licenseType] {String}
+@return {refLicObj}
+ */
+function getRefLicenseProf(refstlic,licenseType)
 	{
 	var refLicObj = null;
 	var refLicenseResult = aa.licenseScript.getRefLicensesProfByLicNbr(aa.getServiceProviderCode(),refstlic);
@@ -10,7 +21,12 @@ function getRefLicenseProf(refstlic)
 		var newLicArray = refLicenseResult.getOutput();
 		if (!newLicArray) return null;
 		for (var thisLic in newLicArray)
-			if (refstlic && newLicArray[thisLic] && refstlic.toUpperCase().equals(newLicArray[thisLic].getStateLicense().toUpperCase()))
+			if(!matches(licenseType,null,undefined,"")){
+				if (refstlic.toUpperCase().equals(newLicArray[thisLic].getStateLicense().toUpperCase()) && 
+					licenseType.toUpperCase().equals(newLicArray[thisLic].getLicenseType().toUpperCase()))
+					refLicObj = newLicArray[thisLic];
+			}
+			else if (refstlic && newLicArray[thisLic] && refstlic.toUpperCase().equals(newLicArray[thisLic].getStateLicense().toUpperCase()))
 				refLicObj = newLicArray[thisLic];
 		}
 

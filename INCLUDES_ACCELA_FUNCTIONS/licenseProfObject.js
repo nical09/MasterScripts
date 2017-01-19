@@ -22,7 +22,8 @@
 *	setDisplayInACA4Table(vTableName, vIsVisible) - Makes table visible in ACA Lookup ('Y'/'N')
 *	getAttribute(vAttributeName) - Get method for attributes
 *	setAttribute(vAttributeName, vAttributeValue) - Set method for attributes
-*	updateFromRecordContactByType(vCapId, vContactType, vUpdateAddress, vUpdatePhoneEmail, [vAddressType]) - Update From Record Contact by Contact Type, uses first contact of type found. If contactType == "" then uses primary. If vAddressType is populated it will use contact address list rather than compact address
+*	setPrimary(vCapId,vPrimary) - Sets the Primary flag on the Record License Professional ('Y'/'N')
+*	updateFromRecordContactByType(vCapId, vContactType, vUpdateAddress, vUpdatePhoneEmail, [vAddressType]) - Update From Record Contact by Contact Type, uses first contact of type found. If contactType == "" then uses primary. If vAddressType is popualted it will use contact address list rather than compact address
 *	updateFromAddress(vCapId) - Updates Reference License Prof address to the primary address on the record
 *	updateFromRecordLicensedProf(vCapId) - Update Reference LP from Record Licensed Prof
 *	copyToRecord(vCapId, vReplace) - Copy Reference Licensed Professional to a Record
@@ -69,7 +70,7 @@ function licenseProfObject(licnumber, lictype) {
 					break;
 				}
 	}
-
+	
 	//Get the People Info Tables
 	if (this.refLicModel != null) {
 		this.infoTableGroupCodeObj = this.refLicModel.getInfoTableGroupCodeModel();
@@ -391,6 +392,30 @@ function licenseProfObject(licnumber, lictype) {
 			}
 		}
 		return retVal;
+	}
+	
+	this.setPrimary = function(vCapId,vPrimary){
+		//Get the LP from the Record
+	
+		if (this.valid) {
+			var capLicenseResult = aa.licenseProfessional.getLicenseProf(vCapId);
+			var capLicenseArr = new Array();
+			var existing = false;
+			if (capLicenseResult.getSuccess()) {
+				capLicenseArr = capLicenseResult.getOutput();
+			}
+
+			if (capLicenseArr != null) {
+				for (capLic in capLicenseArr) {
+					var lpsm = capLicenseArr[capLic];
+					if (lpsm.getLicenseNbr() + "" == this.refLicModel.getStateLicense() + ""
+						 && lpsm.getLicenseType() + "" == this.refLicModel.getLicenseType() + "") {
+							lpsm.setPrintFlag(vPrimary ? "Y" : "N");
+							aa.licenseProfessional.editLicensedProfessional(lpsm);
+					}
+				}
+			}
+		}
 	}
 
 	//Update From Record Contact by Contact Type

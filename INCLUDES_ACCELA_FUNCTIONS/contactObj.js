@@ -1,4 +1,3 @@
-
 /**
 * Contact Object 
 * <p>
@@ -520,7 +519,7 @@ function contactObj(ccsm)  {
         
             if (this.refSeqNumber) {
                 aa.print("ref seq : " + this.refSeqNumber);
-                var capTypes = null;
+                var capTypes = "*/*/*/*";
                 var resultArray = new Array();
                 if (arguments.length == 1) capTypes = arguments[0];
 
@@ -533,11 +532,11 @@ function contactObj(ccsm)  {
                 
                 for (var j in cList) {
                     var thisCapId = aa.cap.getCapID(cList[j].getCapID().getID1(),cList[j].getCapID().getID2(),cList[j].getCapID().getID3()).getOutput();
-                    if (capTypes && appMatch(capTypes,thisCapId)) {
+                    if (appMatch(capTypes,thisCapId)) {
                         resultArray.push(thisCapId)
                         }
                     }
-            }
+				} 
             
         return resultArray;
         }
@@ -682,7 +681,7 @@ function contactObj(ccsm)  {
                 }
             
             // addressType = one of the contact address types, or null to pull from the standard contact fields.
-            var newLic = getRefLicenseProf(licNum);
+            var newLic = getRefLicenseProf(licNum,rlpType);
 
             if (newLic) {
                 updating = true;
@@ -736,6 +735,7 @@ function contactObj(ccsm)  {
             
             if (updating){
                 myResult = aa.licenseScript.editRefLicenseProf(newLic);
+				
 			}
             else{
                 myResult = aa.licenseScript.createRefLicenseProf(newLic);

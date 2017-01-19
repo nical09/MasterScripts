@@ -9,7 +9,7 @@
 |
 /------------------------------------------------------------------------------------------------------*/
 
-var INCLUDE_VERSION = "3.2.1";
+var INCLUDE_VERSION = "3.2.2";
 
 function activateTask(wfstr) // optional process name
 {
@@ -45,6 +45,7 @@ function activateTask(wfstr) // optional process name
 	}
 }
  
+ 
 function activeLicense(capid)
 {
 	if (capid == null || aa.util.instanceOfString(capid))
@@ -62,6 +63,7 @@ function activeLicense(capid)
 	}
 	return false;
 }
+ 
  
 function activeTasksCheck() {
 
@@ -81,6 +83,7 @@ function activeTasksCheck() {
 
 	return false;
 }
+ 
  
 
 function addAddressCondition(addNum, cType,cStatus,cDesc,cComment,cImpact)
@@ -129,6 +132,7 @@ function addAddressCondition(addNum, cType,cStatus,cDesc,cComment,cImpact)
 
 
  
+ 
 function addAddressDistrict(addrNum, districtValue)
 //if addrNum is null, district is is added to all addresses on the Record
 	{
@@ -160,6 +164,7 @@ function addAddressDistrict(addrNum, districtValue)
 			logDebug("Successfully added district " + districtValue + " to address #" + addrNum);
 		}
 	}
+ 
  
 
 function addAddressStdCondition(addNum,cType,cDesc)
@@ -230,6 +235,7 @@ function addAddressStdCondition(addNum,cType,cDesc)
 	}
 
  
+ 
  function addAdHocTask(adHocProcess, adHocTask, adHocNote)
 {
 //adHocProcess must be same as one defined in R1SERVER_CONSTANT
@@ -263,6 +269,7 @@ function addAddressStdCondition(addNum,cType,cDesc)
 }
 
  
+ 
 function addAllFees(fsched,fperiod,fqty,finvoice) // Adds all fees for a given fee schedule
 	{
 	var arrFees = aa.finance.getFeeItemList(null,fsched,null).getOutput();
@@ -289,6 +296,7 @@ function addAllFees(fsched,fperiod,fqty,finvoice) // Adds all fees for a given f
 	} // function
 
  
+ 
 function addAppCondition(cType, cStatus, cDesc, cComment, cImpact, conditionOfApproval) {
 	var addCapCondResult;
 	if (arguments.length > 5) {
@@ -304,6 +312,7 @@ function addAppCondition(cType, cStatus, cDesc, cComment, cImpact, conditionOfAp
 		logDebug("**ERROR: adding condition (" + cImpact + "): " + addCapCondResult.getErrorMessage());
 	}
 }
+ 
  
 function addASITable(tableName, tableValueArray) // optional capId
 {
@@ -364,6 +373,7 @@ function addASITable(tableName, tableValueArray) // optional capId
 		logDebug("Successfully added record to ASI Table: " + tableName);
 
 }
+ 
  
 
 function addASITable4ACAPageFlow(destinationTableGroupModel, tableName, tableValueArray) // optional capId
@@ -454,6 +464,7 @@ function addASITable4ACAPageFlow(destinationTableGroupModel, tableName, tableVal
 	tssm = tsm;
 	return destinationTableGroupModel;
 }
+ 
  
 
 function addContactStdCondition(contSeqNum,cType,cDesc)
@@ -557,6 +568,7 @@ function addContactStdCondition(contSeqNum,cType,cDesc)
 	if (!foundCondition) logDebug( "**WARNING: couldn't find standard condition for " + cType + " / " + cDesc);
 	}
  
+ 
 function addCustomFee(feeSched, feeCode, feeDescr, feeAm, feeAcc, feePeriod) {
     var feeCap = capId;
     if(feePeriod == null){
@@ -582,6 +594,7 @@ function addCustomFee(feeSched, feeCode, feeDescr, feeAm, feeAcc, feePeriod) {
 		logDebug("Error Adding Fee " + newFeeResult.getErrorMessage());
 	}
 }
+ 
  
 function addFee(fcode, fsched, fperiod, fqty, finvoice) // Adds a single fee, optional argument: fCap
 {
@@ -626,6 +639,7 @@ function addFee(fcode, fsched, fperiod, fqty, finvoice) // Adds a single fee, op
 	return feeSeq;
 
 }
+ 
  
 
 function addFeeByDate(feeCap, fdate,fcode, fsched, fperiod, fqty, finvoice) // Adds a single fee, optional argument: fCap
@@ -684,6 +698,7 @@ function addFeeByDate(feeCap, fdate,fcode, fsched, fperiod, fqty, finvoice) // A
 
 }
  
+ 
 
 function addFeeWithExtraData(fcode, fsched, fperiod, fqty, finvoice, feeCap, feeComment, UDF1, UDF2) {
     var feeCapMessage = "";
@@ -729,6 +744,7 @@ function addFeeWithExtraData(fcode, fsched, fperiod, fqty, finvoice, feeCap, fee
     return feeSeq;
 
 }
+ 
  
 
 function addFeeWithExtraDataByDate(feeCap, fdate, fcode, fsched, fperiod, fqty, finvoice, feeCap, feeComment, UDF1, UDF2) {
@@ -795,6 +811,7 @@ function addFeeWithExtraDataByDate(feeCap, fdate, fcode, fsched, fperiod, fqty, 
 
 }
  
+ 
 function addGuideSheet(itemCapId,inspectionId,guideSheetName) {
 	
 	var rgsm = null;
@@ -811,6 +828,7 @@ function addGuideSheet(itemCapId,inspectionId,guideSheetName) {
 		}
 	}
 		
+ 
  
 function addLicenseCondition(cType,cStatus,cDesc,cComment,cImpact)
 	{
@@ -853,6 +871,7 @@ function addLicenseCondition(cType,cStatus,cDesc,cComment,cImpact)
 			logDebug("No reference link to license : " + refLicArr[refLic].getLicenseNbr());
 		}
 	}
+ 
  
 
 function addLicenseStdCondition(licSeqNum,cType,cDesc)
@@ -921,6 +940,7 @@ function addLicenseStdCondition(licSeqNum,cType,cDesc)
 	}
 
  
+ 
 function addLookup(stdChoice,stdValue,stdDesc) 
 	{
 	//check if stdChoice and stdValue already exist; if they do, don't add
@@ -953,6 +973,7 @@ function addLookup(stdChoice,stdValue,stdDesc)
 	}
 
  
+ 
  function addParameter(pamaremeters, key, value)
 {
 	if(key != null)
@@ -964,6 +985,7 @@ function addLookup(stdChoice,stdValue,stdDesc)
 		pamaremeters.put(key, value);
 	}
 }
+ 
  
 function addParcelAndOwnerFromRefAddress(refAddress) // optional capID
 {
@@ -1024,6 +1046,7 @@ function addParcelAndOwnerFromRefAddress(refAddress) // optional capID
 	}
 }
  
+ 
 function addParcelCondition(parcelNum, cType,cStatus,cDesc,cComment,cImpact)
 //if parcelNum is null, condition is added to all parcels on CAP
 	{
@@ -1066,6 +1089,7 @@ function addParcelCondition(parcelNum, cType,cStatus,cDesc,cComment,cImpact)
 	}
 
  
+ 
 function addParcelDistrict(parcelNum, districtValue)
 //if parcelNum is null, district is is added to all parcels on CAP
 	{
@@ -1099,6 +1123,7 @@ function addParcelDistrict(parcelNum, districtValue)
 	}
 
  
+ 
 function addParent(parentAppNum)
 //
 // adds the current application to the parent
@@ -1128,6 +1153,7 @@ function addParent(parentAppNum)
 
 	}
 
+ 
  
 
 function addPublicUserLPsToRecord(itemCapId,publicUser)
@@ -1164,6 +1190,7 @@ function addPublicUserLPsToRecord(itemCapId,publicUser)
 
 
 
+ 
  
 function addrAddCondition(pAddrNum, pType, pStatus, pDesc, pComment, pImpact, pAllowDup)
 	{
@@ -1300,6 +1327,7 @@ function addrAddCondition(pAddrNum, pType, pStatus, pDesc, pComment, pImpact, pA
 	}
 
  
+ 
 
 function addReferenceContactByName(vFirst, vMiddle, vLast)
 {
@@ -1353,6 +1381,7 @@ function addReferenceContactByName(vFirst, vMiddle, vLast)
 		}
 }
  
+ 
 function addressExistsOnCap() {
 	// Optional parameter, cap ID to load from
 	//
@@ -1376,6 +1405,7 @@ function addressExistsOnCap() {
 
 	return false;
 }
+ 
  
 function addStdCondition(cType, cDesc) // optional cap ID
 {
@@ -1404,6 +1434,7 @@ function addStdCondition(cType, cDesc) // optional cap ID
 			}
 	}
 }
+ 
  
 function addTask(sourceTaskName, newTaskName, insertTaskType) {
 
@@ -1455,6 +1486,7 @@ function addTask(sourceTaskName, newTaskName, insertTaskType) {
 
 	return tTask; // returns task item
 } 
+ 
 
 function addTimeAccountingRecord(taskUser, taGroup, taType, dateLogged, hoursSpent, itemCap, billableBool) {
 
@@ -1532,6 +1564,7 @@ function addTimeAccountingRecord(taskUser, taGroup, taType, dateLogged, hoursSpe
         logDebug("**ERROR: adding Time Accounting Record: " + addResult.getErrorMessage());
     }
 }
+ 
  
 
 function addTimeAccountingRecordToWorkflow(taskUser, taGroup, taType, dateLogged, hoursSpent, itemCap, taskName, processName, billableBool)
@@ -1630,6 +1663,7 @@ function addTimeAccountingRecordToWorkflow(taskUser, taGroup, taType, dateLogged
     	    logDebug("**WARNING: error adding Time Accounting Record: task " + taskName + ", process " + processName + " not found.");
     	}
 } 
+ 
 
   function addToASITable(tableName,tableValues) // optional capId
   	{
@@ -1683,6 +1717,7 @@ function addTimeAccountingRecordToWorkflow(taskUser, taGroup, taType, dateLogged
 	}
 
  
+ 
 function allTasksComplete(stask) // optional tasks to ignore... for Sacramento
 	{
 	var ignoreArray = new Array();
@@ -1702,6 +1737,7 @@ function allTasksComplete(stask) // optional tasks to ignore... for Sacramento
 	return true;
 	}
 
+ 
  
 function appHasCondition(pType,pStatus,pDesc,pImpact)
 	{
@@ -1747,6 +1783,7 @@ function appHasCondition(pType,pStatus,pDesc,pImpact)
 	return false; //no matching condition found
 	} //function
 	
+ 
  
 
 
@@ -1849,6 +1886,7 @@ function applyPayments() {
 	}
 }
  
+ 
 function appMatch(ats) // optional capId or CapID string
 	{
 	var matchArray = appTypeArray //default to current app
@@ -1881,6 +1919,7 @@ function appMatch(ats) // optional capId or CapID string
 
 
  
+ 
 function appNameIsUnique(gaGroup,gaType,gaName)
 //
 // returns true if gaName application name has not been used in CAPs of gaGroup and gaType
@@ -1903,6 +1942,7 @@ function appNameIsUnique(gaGroup,gaType,gaName)
 	}
 
  
+ 
 
 function asiTableValObj(columnName, fieldValue, readOnly) {
 	this.columnName = columnName;
@@ -1912,6 +1952,7 @@ function asiTableValObj(columnName, fieldValue, readOnly) {
 
 	asiTableValObj.prototype.toString=function(){ return this.hasValue ? String(this.fieldValue) : String(""); }
 }; 
+ 
 
 function assignCap(assignId) // option CapId
 	{
@@ -1947,6 +1988,7 @@ function assignCap(assignId) // option CapId
 		{ logDebug("**ERROR writing capdetail : " + cdWrite.getErrorMessage()) ; return false ; }
 	}
 
+ 
  
 function assignInspection(iNumber, iName) {
 	// optional capId
@@ -2003,6 +2045,7 @@ function assignInspection(iNumber, iName) {
 	aa.inspection.editInspection(iObj)
 }
  
+ 
 function assignTask(wfstr,username) // optional process name
 	{
 	// Assigns the task to a user.  No audit.
@@ -2043,6 +2086,7 @@ function assignTask(wfstr,username) // optional process name
 	}
 
  
+ 
 function associateRefContactAddressToRecordContact(itemCap,cSeqNumber,rConAddrModel) {
 
 	if (itemCap && cSeqNumber && rConAddrModel) {
@@ -2069,6 +2113,7 @@ function associateRefContactAddressToRecordContact(itemCap,cSeqNumber,rConAddrMo
 	}
 
 } 
+ 
 function autoAssignInspection(iNumber)
 	{
 	// updates the inspection and assigns to a new user
@@ -2123,11 +2168,13 @@ function autoAssignInspection(iNumber)
 
 	}
  
+ 
 function branch(stdChoice)
 	{
 	doStandardChoiceActions(stdChoice,true,0);
 	}
 
+ 
  
 function branchTask(wfstr,wfstat,wfcomment,wfnote) // optional process name
 	{
@@ -2168,6 +2215,7 @@ function branchTask(wfstr,wfstat,wfcomment,wfnote) // optional process name
 	}
 
  
+ 
 function callWebService(wsSubScript, wsScriptParameters)
 	{
 
@@ -2196,6 +2244,7 @@ function callWebService(wsSubScript, wsScriptParameters)
 		}
 		
 	}
+ 
  
 function capHasExpiredLicProf(pDateType, pLicType, pCapId)
 	{
@@ -2262,6 +2311,7 @@ function capHasExpiredLicProf(pDateType, pLicType, pCapId)
 		}
 	return vExpired;
 	} 
+ 
 function capIdsFilterByFileDate(pCapIdArray, pStartDate, pEndDate)
 	{
 	//Filters CAP's in pCapIdArray by file date, and returns only CAP's whose file date falls within pStartDate and pEndDate, as a capId Array
@@ -2292,6 +2342,7 @@ function capIdsFilterByFileDate(pCapIdArray, pStartDate, pEndDate)
 	
 	return filteredArray;
 	} 
+ 
 function capIdsGetByAddr() {
 	//Gets CAPs with the same address as the current CAP, as capId (CapIDModel) object array (array includes current capId)
 	//07SSP-00034/SP5015
@@ -2350,6 +2401,7 @@ function capIdsGetByAddr() {
 	else
 		return false;
 } 
+ 
 function capIdsGetByParcel(pParcelNum)
 	{
 	//Gets CAPs that have parcel pParcelNum, as capId (CapIDModel object)  array (array includes current capId)
@@ -2397,6 +2449,7 @@ function capIdsGetByParcel(pParcelNum)
 	}
 		
 	 
+ 
 function capSet(desiredSetId)
     {
     this.refresh = function()
@@ -2531,6 +2584,7 @@ function capSet(desiredSetId)
         }
     }
  
+ 
 function checkCapForLicensedProfessionalType( licProfType )
 {
 	var capLicenseResult = aa.licenseScript.getLicenseProf(capId);
@@ -2556,6 +2610,7 @@ function checkCapForLicensedProfessionalType( licProfType )
 	else
 		{ aa.print("**ERROR: getting lic prof: " + capLicenseResult.getErrorMessage()); return false; }
 } 
+ 
 function checkForLastDocCat(vDocCat,capId)
 {
 //function looks at the last date any document(s) was uploaded and evaluates if matches the specified doc type
@@ -2588,6 +2643,7 @@ if (docListResult.getSuccess())
 	return varWasUploaded;
 }
  
+ 
 function checkInspectionResult(insp2Check,insp2Result)
 	{
 	var inspResultObj = aa.inspection.getInspections(capId);
@@ -2601,6 +2657,7 @@ function checkInspectionResult(insp2Check,insp2Result)
 	return false;
 	}
 
+ 
  
 function checkRequiredASIFields() {
 
@@ -2619,6 +2676,7 @@ function checkRequiredASIFields() {
 	}
 	return fieldsComplete;
 } 
+ 
 function childGetByCapType(pCapType, pParentCapId) 
 	{
 	// Returns capId object of first child of pParentCapId whose cap type matches pCapType parameter
@@ -2681,6 +2739,7 @@ function childGetByCapType(pCapType, pParentCapId)
 	}
 	
  
+ 
 function closeCap(userId) // option CapId
 {
 	var itemCap = capId
@@ -2724,6 +2783,7 @@ function closeCap(userId) // option CapId
 			return false;
 		}
 } 
+ 
 function closeSubWorkflow(thisProcessID,wfStat) // optional capId
 	{
 	var itemCap = capId;
@@ -2777,6 +2837,7 @@ function closeSubWorkflow(thisProcessID,wfStat) // optional capId
 		logDebug("Closed parent task");
 	}
  
+ 
 function closeTask(wfstr,wfstat,wfcomment,wfnote) // optional process name
 	{
 	var useProcess = false;
@@ -2816,12 +2877,14 @@ function closeTask(wfstr,wfstat,wfcomment,wfnote) // optional process name
 	}
 
  
+ 
 function comment(cstr)
 	{
 	if (showDebug) logDebug(cstr);
 	if (showMessage) logMessage(cstr);
 	}
 	
+ 
  
 function comparePeopleGeneric(peop)
 	{
@@ -2903,6 +2966,7 @@ function comparePeopleGeneric(peop)
 		}
 
 } 
+ 
 
 function comparePeopleStandard(peop)
 	{
@@ -2992,6 +3056,7 @@ function comparePeopleStandard(peop)
 		return false;
 	}
  
+ 
 function completeCAP(userId) // option CapId
 {
 	var itemCap = capId
@@ -3034,6 +3099,7 @@ function completeCAP(userId) // option CapId
 		return false ; 
 	}
 } 
+ 
 function contactAddFromUser(pUserId)
 	{
 	// Retrieves user's reference Contact record and adds to CAP
@@ -3113,7 +3179,7 @@ function contactAddFromUser(pUserId)
 	} 
 	
  
-
+ 
 /**
 * Contact Object 
 * <p>
@@ -3635,7 +3701,7 @@ function contactObj(ccsm)  {
         
             if (this.refSeqNumber) {
                 aa.print("ref seq : " + this.refSeqNumber);
-                var capTypes = null;
+                var capTypes = "*/*/*/*";
                 var resultArray = new Array();
                 if (arguments.length == 1) capTypes = arguments[0];
 
@@ -3648,11 +3714,11 @@ function contactObj(ccsm)  {
                 
                 for (var j in cList) {
                     var thisCapId = aa.cap.getCapID(cList[j].getCapID().getID1(),cList[j].getCapID().getID2(),cList[j].getCapID().getID3()).getOutput();
-                    if (capTypes && appMatch(capTypes,thisCapId)) {
+                    if (appMatch(capTypes,thisCapId)) {
                         resultArray.push(thisCapId)
                         }
                     }
-            }
+				} 
             
         return resultArray;
         }
@@ -3797,7 +3863,7 @@ function contactObj(ccsm)  {
                 }
             
             // addressType = one of the contact address types, or null to pull from the standard contact fields.
-            var newLic = getRefLicenseProf(licNum);
+            var newLic = getRefLicenseProf(licNum,rlpType);
 
             if (newLic) {
                 updating = true;
@@ -3851,6 +3917,7 @@ function contactObj(ccsm)  {
             
             if (updating){
                 myResult = aa.licenseScript.editRefLicenseProf(newLic);
+				
 			}
             else{
                 myResult = aa.licenseScript.createRefLicenseProf(newLic);
@@ -4084,6 +4151,7 @@ function contactObj(ccsm)  {
             return relConsArray;
         }
     } 
+ 
 function contactSetPrimary(pContactNbr)
 	{
 	// Makes contact the Primary Contact
@@ -4124,6 +4192,7 @@ function contactSetPrimary(pContactNbr)
 		}
 	}
 	
+ 
  
 function contactSetRelation(pContactNbr, pRelation)
 	{
@@ -4166,6 +4235,7 @@ function contactSetRelation(pContactNbr, pRelation)
 	}
 
  
+ 
  function convertContactAddressModelArr(contactAddressScriptModelArr)
 
 {
@@ -4194,6 +4264,7 @@ function contactSetRelation(pContactNbr, pRelation)
 
 
 
+ 
  
 
 function convertDate(thisDate)
@@ -4245,6 +4316,7 @@ function convertDate(thisDate)
 
 	}
  
+ 
 function convertStringToPhone(theString) {
 	var n = "22233344455566677778889999";
 
@@ -4260,6 +4332,7 @@ function convertStringToPhone(theString) {
 	}
 	return retString;
 }
+ 
  
 function copyAddresses(pFromCapId, pToCapId)
 	{
@@ -4321,6 +4394,7 @@ function copyAddresses(pFromCapId, pToCapId)
 
 
  
+ 
 function copyAppSpecific(newCap) // copy all App Specific info into new Cap, 1 optional parameter for ignoreArr
 {
 	var ignoreArr = new Array();
@@ -4348,6 +4422,7 @@ function copyAppSpecific(newCap) // copy all App Specific info into new Cap, 1 o
 }
 
  
+ 
 function copyAppSpecific4ACA(capFrom) { // copy all App Specific info into new Cap
 var i= capFrom.getAppSpecificInfoGroups().iterator();
 
@@ -4370,6 +4445,7 @@ var i= capFrom.getAppSpecificInfoGroups().iterator();
         }
     }
 }
+ 
  
 function copyASIFields(sourceCapId,targetCapId)  // optional groups to ignore
 	{
@@ -4405,6 +4481,7 @@ function copyASIFields(sourceCapId,targetCapId)  // optional groups to ignore
   		  }
 	}
 
+ 
  
 function copyASITables(pFromCapId, pToCapId) {
 	// Function dependencies on addASITable()
@@ -4474,6 +4551,7 @@ function copyASITables(pFromCapId, pToCapId) {
 		logDebug("ASI Table Array : " + tn + " (" + numrows + " Rows)");
 	}
 } 
+ 
 function copyCalcVal(fromcap,newcap)
 	{
 	// 8/8/2008 JHS  creatBCalcValuatn method began using the script model after 6.4  updated this function
@@ -4495,6 +4573,7 @@ function copyCalcVal(fromcap,newcap)
 			{ logMessage("**ERROR: Creating new calc valuatn on target cap ID: " + createResult.getErrorMessage()); return false; }
 		}
 	}
+ 
  
 function copyConditions(fromCapId) // optional toCapID
 {
@@ -4521,6 +4600,7 @@ function copyConditions(fromCapId) // optional toCapID
 			logDebug("**ERROR: adding condition (" + cImpact + "): " + addCapCondResult.getErrorMessage());
 	}
 } 
+ 
 function copyConditionsFromParcel(parcelIdString)
 		{
 		var getFromCondResult = aa.parcelCondition.getParcelConditions(parcelIdString)
@@ -4546,6 +4626,7 @@ function copyConditionsFromParcel(parcelIdString)
 				
 			}
 		}
+ 
  
 function copyContacts(pFromCapId, pToCapId) {
 	//Copies all contacts from pFromCapId to pToCapId
@@ -4593,6 +4674,7 @@ function convertContactAddressModelArr(contactAddressScriptModelArr) {
 	}
 	return contactAddressModelArr;
 } 
+ 
 function copyContactsByType(pFromCapId, pToCapId, pContactType)
 	{
 	//Copies all contacts from pFromCapId to pToCapId
@@ -4627,6 +4709,7 @@ function copyContactsByType(pFromCapId, pToCapId, pContactType)
 		}
 	return copied;
 	} 
+ 
  function copyEducation(srcCapId, targetCapId)
 
 {
@@ -4640,6 +4723,7 @@ function copyContactsByType(pFromCapId, pToCapId, pContactType)
     }
 
 }
+ 
  
 function copyFees(sourceCapId,targetCapId)
 	{
@@ -4681,6 +4765,7 @@ function copyFees(sourceCapId,targetCapId)
 
 	}
  
+ 
 
 function copyLicensedProf(sCapId, tCapId)
 {
@@ -4697,6 +4782,7 @@ function copyLicensedProf(sCapId, tCapId)
 	else
 		logDebug("No licensed professional on source");
 }
+ 
  
 
 //Function will copy all owners from source CAP (sCapID) to target CAP (tCapId)
@@ -4716,6 +4802,7 @@ function copyOwner(sCapID, tCapID)
 	else
 		logDebug("Error Copying Owner : " + ownrObj.getErrorType() + " : " + ownrObj.getErrorMessage());
 }
+ 
  
 function copyOwnersByParcel()
 {
@@ -4757,6 +4844,7 @@ function copyOwnersByParcel()
 		 }
 	} 
 } 
+ 
 function copyParcelGisObjects() 
 	{
 	var capParcelResult = aa.parcel.getParcelandAttribute(capId,null);
@@ -4797,6 +4885,7 @@ function copyParcelGisObjects()
 	}
 
  
+ 
 function copyParcels(pFromCapId, pToCapId)
 	{
 	//Copies all parcels from pFromCapId to pToCapId
@@ -4832,6 +4921,7 @@ function copyParcels(pFromCapId, pToCapId)
 		}
 	return copied;
 	} 
+ 
 function copySchedInspections(pFromCapId, pToCapId)
 	{
 	//Copies all scheduled inspections from pFromCapId to pToCapId
@@ -4884,6 +4974,7 @@ function copySchedInspections(pFromCapId, pToCapId)
 
 
  
+ 
 function countActiveTasks(processName) {
 	// counts the number of active tasks on a given process
 	var numOpen = 0;
@@ -4898,6 +4989,7 @@ function countActiveTasks(processName) {
 
 	return numOpen;
 }
+ 
  
 function countIdenticalInspections()
 	{
@@ -4930,6 +5022,7 @@ function countIdenticalInspections()
 	return cntResult;
 	}	
 	 
+ 
 function createCap(pCapType, pAppName) 
 	{
 	// creates a new application and returns the capID object
@@ -4959,6 +5052,7 @@ function createCap(pCapType, pAppName)
 	}
 
  
+ 
 function createCapComment(vComment) //optional CapId, optional vDispOnInsp
 {
 	var vCapId = capId;
@@ -4983,6 +5077,7 @@ function createCapComment(vComment) //optional CapId, optional vDispOnInsp
 	aa.cap.createCapComment(capCommentModel);
 	logDebug("Comment Added");
 } 
+ 
 function createChild(grp,typ,stype,cat,desc) // optional parent capId
 {
 	//
@@ -5067,6 +5162,7 @@ function createChild(grp,typ,stype,cat,desc) // optional parent capId
 }
 
  
+ 
  function createLicense(initStatus,copyASI) {
 
 	//initStatus - record status to set the license to initially
@@ -5123,6 +5219,7 @@ function createChild(grp,typ,stype,cat,desc) // optional parent capId
 
 
 
+ 
  
  function createParent(grp,typ,stype,cat,desc) 
 
@@ -5269,6 +5366,7 @@ function createChild(grp,typ,stype,cat,desc) // optional parent capId
 
 
  
+ 
 
 function createPendingInspection(iGroup,iType) // optional Cap ID
 	{
@@ -5330,6 +5428,7 @@ function createPendingInspection(iGroup,iType) // optional Cap ID
 	
 
  
+ 
 
 function createPendingInspFromReqd() // optional Cap ID
 	{
@@ -5356,6 +5455,7 @@ function createPendingInspFromReqd() // optional Cap ID
 			}
 		}
 	}
+ 
  
 
 function createPublicUserFromContact()   // optional: Contact Type, default Applicant
@@ -5454,6 +5554,7 @@ if (refContactNum)
 return userModel; // send back the new or existing public user
 }
  
+ 
 function createRecord(grp,typ,stype,cat,desc) 
 //
 // creates the new application and returns the capID object
@@ -5529,6 +5630,7 @@ function createRecord(grp,typ,stype,cat,desc)
 	}
 
  
+ 
 function createRefContactAddressFromAddress(rSeqNbr,nAddrModel,addrType) {
 						
 	if (nAddrModel && rSeqNbr) {
@@ -5575,6 +5677,7 @@ function createRefContactAddressFromAddress(rSeqNbr,nAddrModel,addrType) {
 		return false;
 	}						
 } 
+ 
 
 function createRefContactsFromCapContactsAndLink(pCapId, contactTypeArray, ignoreAttributeArray, replaceCapContact, overwriteRefContact, refContactExists)
 	{
@@ -5769,6 +5872,7 @@ function createRefContactsFromCapContactsAndLink(pCapId, contactTypeArray, ignor
 	}  // end for each CAP contact
 } 
  
+ 
  function createRefLicProf(rlpId,rlpType,pContactType)
 	{
 	// 
@@ -5890,6 +5994,7 @@ function createRefContactsFromCapContactsAndLink(pCapId, contactTypeArray, ignor
 	}
 
  
+ 
 
 function createRefLicProfFromLicProf()
 	{
@@ -5971,6 +6076,7 @@ function createRefLicProfFromLicProf()
 	}
 
  
+ 
  function createRefLP4Lookup(newLicIdString,newLicenseType,conType,conAddrType) {
 
 	//All parameters are required
@@ -6010,6 +6116,7 @@ function createRefLicProfFromLicProf()
 
 
 }
+ 
  
 function dateAdd(td, amt)
 // perform date arithmetic on a string
@@ -6053,6 +6160,7 @@ function dateAdd(td, amt)
 
 	return (dDate.getMonth() + 1) + "/" + dDate.getDate() + "/" + dDate.getFullYear();
 } 
+ 
 function dateAddMonths(pDate, pMonths)
 	{
 	// Adds specified # of months (pMonths) to pDate and returns new date as string in format MM/DD/YYYY
@@ -6077,6 +6185,7 @@ function dateAddMonths(pDate, pMonths)
 	}
 
  
+ 
 	
 
 function dateDiff(date1, date2) {
@@ -6084,6 +6193,7 @@ function dateDiff(date1, date2) {
     return (convertDate(date2).getTime() - convertDate(date1).getTime()) / (1000 * 60 * 60 * 24);
 }
 
+ 
  
 function dateFormatted(pMonth, pDay, pYear, pFormat)
 //returns date string formatted as YYYY-MM-DD or MM/DD/YYYY (default)
@@ -6108,6 +6218,7 @@ function dateFormatted(pMonth, pDay, pYear, pFormat)
 
 	return ret;
 } 
+ 
 function dateNextOccur (pMonth, pDay, pDate)
 	//optional 4th param pOddEven:
 	//'ODD' specifies that return date must be next odd year, 'EVEN' means return date is next even year.
@@ -6151,6 +6262,7 @@ function dateNextOccur (pMonth, pDay, pDate)
 	}
 
  
+ 
  function deactivateActiveTasks(processName) {
 
 
@@ -6192,6 +6304,7 @@ function dateNextOccur (pMonth, pDay, pDate)
 
 
  
+ 
 function deactivateTask(wfstr) // optional process name
 {
 	var useProcess = false;
@@ -6226,6 +6339,7 @@ function deactivateTask(wfstr) // optional process name
 		}
 	}
 }
+ 
  
  function decode64(input) {
 
@@ -6322,6 +6436,7 @@ function deactivateTask(wfstr) // optional process name
   }
 
  
+ 
 
 
 
@@ -6350,6 +6465,7 @@ function deleteLicensedProfessional(lsm)  {
 	   logDebug(licenseNumber + "has been deleted");
 	   }
 	}
+ 
  
 function deleteTask(targetCapId,deleteTaskName)
 {
@@ -6386,6 +6502,7 @@ function deleteTask(targetCapId,deleteTaskName)
 
 }
  
+ 
 function describe(obj) {
 	var ret = "";
 	for (var i in obj)
@@ -6395,6 +6512,7 @@ function describe(obj) {
 			ret += "property:" + i + " = " + obj[i] + "\n";
 	return ret;
 }
+ 
  
 function describeObject(obj2describe)
 {
@@ -6418,6 +6536,7 @@ function describeObject(obj2describe)
                                                 
 }
  
+ 
 
 function docWrite(dstr,header,indent)
 	{
@@ -6433,6 +6552,7 @@ function docWrite(dstr,header,indent)
 
 
  
+ 
 
 function doesASIFieldExistOnRecord(asiFieldName) {
 	var itemCap = capId;
@@ -6442,6 +6562,7 @@ function doesASIFieldExistOnRecord(asiFieldName) {
 	return (aa.appSpecificInfo.getAppSpecificInfos(itemCap, asiFieldName).getOutput()[0] != 'undefined');
 
 }
+ 
  
 function doScriptActions() {
 	include(prefix + ":" + "*/*/*/*");
@@ -6457,6 +6578,7 @@ function doScriptActions() {
 			}
 	}
 	 
+ 
  function doStandardChoiceActions(stdChoiceEntry, doExecution, docIndent) {
     var thisDate = new Date();
     var thisTime = thisDate.getTime();
@@ -6526,6 +6648,7 @@ function doScriptActions() {
     logDebug("Finished: " + stdChoiceEntry + ", Elapsed Time: " + ((thisTime - startTime) / 1000) + " Seconds")
 }
  
+ 
 function editAppName(newname)
 	{
 	// 4/30/08 - DQ - Corrected Error where option parameter was ignored
@@ -6550,6 +6673,7 @@ function editAppName(newname)
 	return true;
 	}
 
+ 
  
 function editAppSpecific(itemName,itemValue)  // optional: itemCap
 {
@@ -6578,6 +6702,7 @@ function editAppSpecific(itemName,itemValue)  // optional: itemCap
 		{ logDebug( "WARNING: " + itemName + " was not updated."); }
 }
 
+ 
  
  function editAppSpecific4ACA(itemName, itemValue) {
 
@@ -6620,6 +6745,7 @@ field.getCheckboxDesc())) || itemName.equals(field.getCheckboxDesc())) {
 }
 
  
+ 
 function editBuildingCount(numBuild) // option CapId
 	{
 	var itemCap = capId
@@ -6645,6 +6771,7 @@ function editBuildingCount(numBuild) // option CapId
 	else
 		{ logDebug("**ERROR writing capdetail : " + cdWrite.getErrorMessage()) ; return false ; }
 	} 
+ 
  function editCapConditionStatus(pType,pDesc,pStatus,pStatusType) {
 
 	// updates a condition with the pType and pDesc
@@ -6782,6 +6909,7 @@ function days_between(date1, date2) {
 
 
  
+ 
 
 function editCapContactAttribute(contactSeq,pAttributeName,pNewAttributeValue)
 	{
@@ -6827,6 +6955,7 @@ function editCapContactAttribute(contactSeq,pAttributeName,pNewAttributeValue)
 	
 }
  
+ 
 function editChannelReported(channel) // option CapId
 	{
 	var itemCap = capId
@@ -6852,6 +6981,7 @@ function editChannelReported(channel) // option CapId
 	else
 		{ logDebug("**ERROR writing capdetail : " + cdWrite.getErrorMessage()) ; return false ; }
 	} 
+ 
 function editConstTypeCode(constTypeCode) // option CapId
 {
 	var itemCap = capId;
@@ -6880,6 +7010,7 @@ function editConstTypeCode(constTypeCode) // option CapId
 		return false;
 	}
 }
+ 
  
  function editContactType(existingType,newType)
 
@@ -6946,6 +7077,7 @@ function editConstTypeCode(constTypeCode) // option CapId
 
 
  
+ 
 function editCreatedBy(nCreatedBy) {
 	// 4/30/08 - DQ - Corrected Error where option parameter was ignored
 	var itemCap = capId;
@@ -6968,6 +7100,7 @@ function editCreatedBy(nCreatedBy) {
 
 	return true;
 } 
+ 
 function editEstimatedJobValue(jobValue) // option CapId
 {
 	var itemCap = capId;
@@ -7003,6 +7136,7 @@ function editEstimatedJobValue(jobValue) // option CapId
 		logDebug("Updated the estimated job value to " + jobValue);
 	}
 }
+ 
  
  function editFirstIssuedDate(issuedDate) { // option CapId
 
@@ -7066,6 +7200,7 @@ function editEstimatedJobValue(jobValue) // option CapId
 
 }
  
+ 
 function editHouseCount(numHouse) // option CapId
 	{
 	var itemCap = capId
@@ -7091,6 +7226,7 @@ function editHouseCount(numHouse) // option CapId
 	else
 		{ logDebug("**ERROR writing capdetail : " + cdWrite.getErrorMessage()) ; return false ; }
 	} 
+ 
 
 function editInspectionRequiredFlag(inspType,reqFlag)
 	{
@@ -7125,6 +7261,7 @@ function editInspectionRequiredFlag(inspType,reqFlag)
 		}
 	}
  
+ 
 
 function editLookup(stdChoice,stdValue,stdDesc) 
 	{
@@ -7152,6 +7289,7 @@ function editLookup(stdChoice,stdValue,stdDesc)
 	}
 
  
+ 
 function editPriority(priority) // option CapId
 {
 	var itemCap = capId
@@ -7177,6 +7315,7 @@ function editPriority(priority) // option CapId
 	else
 		{ logDebug("**ERROR writing capdetail : " + cdWrite.getErrorMessage()) ; return false ; }
 } 
+ 
 function editRefAddrAttr(refAddressPK, label, newValue) {
 
 	try {
@@ -7204,6 +7343,7 @@ function editRefAddrAttr(refAddressPK, label, newValue) {
 	}
 
 }
+ 
  
 
 function editRefLicProfAttribute(pLicNum,pAttributeName,pNewAttributeValue)
@@ -7258,6 +7398,7 @@ function editRefLicProfAttribute(pLicNum,pAttributeName,pNewAttributeValue)
 		*/
 		}
 	} 
+ 
 /**
 * This function is intended to update reference parcel attributes and refresh the parcel information on the record. 
 * If no parcel number is provided, it will update all parcels that contain the attributeName with the supplied attributeValue
@@ -7358,6 +7499,7 @@ function editRefParcelAttribute(attributeName, attributeValue, parcelNumber) //T
 	}
 	return updatedParcel;
 }  
+ 
 function editReportedChannel(reportedChannel) // option CapId
 {
 	var itemCap = capId
@@ -7383,6 +7525,7 @@ function editReportedChannel(reportedChannel) // option CapId
 	else
 		{ logDebug("**ERROR writing capdetail : " + cdWrite.getErrorMessage()) ; return false ; }
 } 
+ 
 function editFirstIssuedDate(issuedDate) // option CapId
 {
 	var itemCap = capId
@@ -7411,6 +7554,7 @@ function editFirstIssuedDate(issuedDate) // option CapId
 	else
 		{ logDebug("**ERROR updating first issued date: " + cdWrite.getErrorMessage()) ; return false ; }
 } 
+ 
 
 function editTaskACAVisibility(wfstr,visibleTask,visibleComment,restrictRole) // optional process name
 	{
@@ -7451,6 +7595,7 @@ function editTaskACAVisibility(wfstr,visibleTask,visibleComment,restrictRole) //
 			}			
 		}
 	} 
+ 
 function editTaskComment(wfstr,wfcomment) // optional process name
 	{
 	var useProcess = false;
@@ -7483,6 +7628,7 @@ function editTaskComment(wfstr,wfcomment) // optional process name
 		}
 	}
 
+ 
  
 function editTaskDueDate(wfstr, wfdate) // optional process name.  if wfstr == "*", set for all tasks
 {
@@ -7520,6 +7666,7 @@ function editTaskDueDate(wfstr, wfdate) // optional process name.  if wfstr == "
 		}
 	}
 }
+ 
  
 function editTaskSpecific(wfName,itemName,itemValue)  // optional: itemCap
 	{
@@ -7578,6 +7725,7 @@ function editTaskSpecific(wfName,itemName,itemValue)  // optional: itemCap
 	}
 
  
+ 
 function email(pToEmail, pFromEmail, pSubject, pText) 
 	{
 	//Sends email to specified address
@@ -7588,6 +7736,7 @@ function email(pToEmail, pFromEmail, pSubject, pText)
 	return true;
 	}
 
+ 
  
 function emailContact(mSubj,mText)   // optional: Contact Type, default Applicant
 	{
@@ -7615,6 +7764,7 @@ function emailContact(mSubj,mText)   // optional: Contact Type, default Applican
 	else
 		logDebug("Couldn't send email to " + contactType + ", no valid email address");
 	} 
+ 
  function encode64(input) {
 
      var keyStr = "ABCDEFGHIJKLMNOP" +
@@ -7698,10 +7848,12 @@ function emailContact(mSubj,mText)   // optional: Contact Type, default Applican
 
 
  
+ 
 function endBranch() {
 	// stop execution of the current std choice
 	stopBranch = true;
 	} 
+ 
 function executeASITable(tableArray)
 	{
 	// Executes an ASI table as if it were script commands
@@ -7732,6 +7884,7 @@ function executeASITable(tableArray)
 	}
 
  
+ 
 //
 // exists:  return true if Value is in Array
 //
@@ -7741,6 +7894,7 @@ function exists(eVal, eArray) {
 	  return false;
 }
 
+ 
  
 function externalLP_CA(licNum, rlpType, doPopulateRef, doPopulateTrx, itemCap) {
 
@@ -8144,6 +8298,7 @@ function externalLP_CA(licNum, rlpType, doPopulateRef, doPopulateTrx, itemCap) {
 		return null;
 
 } // end function 
+ 
 function feeAmount(feestr) {
 	// optional statuses to check for (SR5082)
 	//
@@ -8172,6 +8327,7 @@ function feeAmount(feestr) {
 
 			return feeTotal;
 } 
+ 
 
 //Parameter 1 = CapId, Parameter 2 to n = Fee Code to ignore
 function feeAmountExcept(checkCapId) 
@@ -8200,6 +8356,7 @@ function feeAmountExcept(checkCapId)
 	return feeTotal;
 	}
 
+ 
  
 function feeBalance(feestr) {
 	// Searches payment fee items and returns the unpaid balance of a fee item
@@ -8232,6 +8389,7 @@ function feeBalance(feestr) {
 		}
 	return amtFee - amtPaid;
 }
+ 
  
 function feeBalanceFromDate(searchDays,feestr)
 	{
@@ -8276,6 +8434,7 @@ function feeBalanceFromDate(searchDays,feestr)
 	}
 	return amtFee - amtPaid;
 	} 
+ 
 function feeCopyByDateRange(pStartDate, pEndDate) 
 	// gets total for fees assessed during date range
 	// optional fee statuses to check for						
@@ -8323,6 +8482,7 @@ function feeCopyByDateRange(pStartDate, pEndDate)
 	}
 
  
+ 
 function feeExists(feestr) // optional statuses to check for
 {
 	var checkStatus = false;
@@ -8349,6 +8509,7 @@ function feeExists(feestr) // optional statuses to check for
 
 	return false;
 } 
+ 
 function feeGetTotByDateRange(pStartDate, pEndDate) 
 	// gets total for fees assessed during date range
 	// optional fee statuses to check for						
@@ -8396,6 +8557,7 @@ function feeGetTotByDateRange(pStartDate, pEndDate)
 	}
 
  
+ 
 function feeQty(feestr) {
 	var feeQty = 0;
 	var feeResult = aa.fee.getFeeItems(capId, feestr, null);
@@ -8412,6 +8574,7 @@ function feeQty(feestr) {
 
 	return feeQty;
 }
+ 
  
 function generateReport(itemCap,reportName,module,parameters) {
 
@@ -8441,6 +8604,7 @@ function generateReport(itemCap,reportName,module,parameters) {
     return false;
   }
 } 
+ 
 function generateReport4Workflow(itemCap,reportName,module,parameters) {
 
   //returns the report file which can be attached to an email.
@@ -8467,6 +8631,7 @@ function generateReport4Workflow(itemCap,reportName,module,parameters) {
     return false;
   }
 } 
+ 
 function genericTemplateObject(gtmp) {
 	this.ASI = new Array(); //Condition Array
 	this.ASIT = new Array();
@@ -8525,6 +8690,7 @@ function genericTemplateObject(gtmp) {
 
 	return this;
 } 
+ 
  function getACADocDownloadParam4Notification(params,acaUrl,docModel) {
 
 	// pass in a hashtable and it will add the additional parameters to the table
@@ -8541,6 +8707,7 @@ function genericTemplateObject(gtmp) {
 
 
 
+ 
  
  function getACADocumentDownloadUrl(acaUrl,documentModel) {
 
@@ -8579,6 +8746,7 @@ function genericTemplateObject(gtmp) {
 
 
  
+ 
  function getACARecordParam4Notification(params,acaUrl) {
 
 	// pass in a hashtable and it will add the additional parameters to the table
@@ -8595,6 +8763,7 @@ function genericTemplateObject(gtmp) {
 
 
 
+ 
  
  function getACARecordURL(acaUrl) {
 
@@ -8624,6 +8793,7 @@ function genericTemplateObject(gtmp) {
 
 }
  
+ 
 function getACAUrl(){
 
 	// returns the path to the record on ACA.  Needs to be appended to the site
@@ -8642,6 +8812,7 @@ function getACAUrl(){
 	acaUrl += "&agencyCode=" + aa.getServiceProviderCode();
 	return acaUrl;
 	}
+ 
  
 function getAddressCountyByAddressType(aType) { //optional capId parameter
 	var itemCap = capId
@@ -8668,6 +8839,7 @@ function getAddressCountyByAddressType(aType) { //optional capId parameter
     logDebug("Could not find an address of type: " + aType);
     return false;
 } 
+ 
 function getAddressLineByAddressType(aType) { //optional capId parameter
 	var itemCap = capId
     if (arguments.length > 1)
@@ -8693,6 +8865,7 @@ function getAddressLineByAddressType(aType) { //optional capId parameter
     logDebug("Could not find an address of type: " + aType);
     return false;
 } 
+ 
  function getAppConditions(params,pType,pStatus,pDesc,pImpact) {
 
 
@@ -8781,6 +8954,7 @@ function getAddressLineByAddressType(aType) { //optional capId parameter
 
 }
  
+ 
 function getAppIdByASI(ASIName,ASIValue,ats)
 	//
 	// returns the cap Id string of an application based on App-Specific Info and applicationtype.  Returns first result only!
@@ -8817,6 +8991,7 @@ function getAppIdByASI(ASIName,ASIValue,ats)
 	}
 
  
+ 
 function getAppIdByName(gaGroup,gaType,gaName)
 //
 // returns the cap Id string of an application that has group,type,and name
@@ -8840,6 +9015,7 @@ function getAppIdByName(gaGroup,gaType,gaName)
 		}
 	}
  
+ 
 function getApplication(appNum) 
 //
 // returns the capId object of an application
@@ -8852,6 +9028,7 @@ function getApplication(appNum)
 		{ logDebug( "**ERROR: getting cap id (" + appNum + "): " + getCapResult.getErrorMessage()) }
 	}
 
+ 
  
 function getAppSpecific(itemName)  // optional: itemCap
 {
@@ -8889,6 +9066,7 @@ function getAppSpecific(itemName)  // optional: itemCap
 		{ logDebug( "**ERROR: getting app specific info for Cap : " + appSpecInfoResult.getErrorMessage()) }
 }
 
+ 
  
 function getCapByAddress(ats) 
 //
@@ -8953,6 +9131,7 @@ function getCapByAddress(ats)
 	}
 
  
+ 
 function getCapId() {
 
 	var s_id1 = aa.env.getValue("PermitId1");
@@ -8972,6 +9151,7 @@ function getCapId() {
 		return null;
 	}
 }
+ 
  
 function getCapsWithConditionsRelatedByRefContact(itemCap,capType,pType,pStatus,pDesc,pImpact) {
 	var matchingCapArray = new Array();
@@ -9034,6 +9214,7 @@ function getCapsWithConditionsRelatedByRefContact(itemCap,capType,pType,pStatus,
 			}
 		}
 	} 
+ 
 function getChildren(pCapType, pParentCapId) 
 	{
 	// Returns an array of children capId objects whose cap type matches pCapType parameter
@@ -9094,6 +9275,7 @@ function getChildren(pCapType, pParentCapId)
 	}
 	
  
+ 
 function getChildTasks(taskName) {
 	var childTasks = new Array();
 	var childId = null;
@@ -9124,6 +9306,7 @@ function getChildTasks(taskName) {
 	return childTasks;
 
 }
+ 
  
 function getCAPConditions(pType, pStatus, pDesc, pImpact) // optional capID
 {
@@ -9576,6 +9759,7 @@ function condMatchObj() {
 	this.arComment = null;
 	this.expireDate = null;
 } 
+ 
 function getContactArray()
 	{
 	// Returns an array of associative arrays with contact attributes.  Attributes are UPPER CASE
@@ -9644,6 +9828,7 @@ function getContactArray()
 	return cArray;
 	}
 
+ 
  
  function getContactArrayBefore()
 
@@ -9746,6 +9931,7 @@ function getContactArray()
 
 
  
+ 
  function getContactByType(conType,capId) {
 
     var contactArray = getPeople(capId);
@@ -9768,6 +9954,7 @@ function getContactArray()
 
 
 
+ 
  
 function getContactObj(itemCap,typeToLoad)
 {
@@ -9798,6 +9985,7 @@ function getContactObj(itemCap,typeToLoad)
     return false;
             
 } 
+ 
  function getContactObjsBySeqNbr(itemCap,seqNbr) {
 	/*var result = aa.people.getCapContactByPK(itemCap,seqNbr);
 	
@@ -9825,6 +10013,7 @@ function getContactObj(itemCap,typeToLoad)
 
 
 
+ 
  
 function getContactObjs(itemCap) // optional typeToLoad, optional return only one instead of Array?
 {
@@ -9869,6 +10058,7 @@ function getContactObjs(itemCap) // optional typeToLoad, optional return only on
             
 }
  
+ 
  function getContactObjsByCap(itemCap) // optional typeToLoad, optional return only one instead of Array?
 {
 	var typesToLoad = false;
@@ -9893,6 +10083,7 @@ function getContactObjs(itemCap) // optional typeToLoad, optional return only on
 
 
 
+ 
  
  function getContactParams4Notification(params,conType) {
 
@@ -9971,6 +10162,7 @@ function getContactObjs(itemCap) // optional typeToLoad, optional return only on
 
 
  
+ 
 function getCSLBInfo(doPop,doWarning)   // doPop = true populate the cap lic prof with this data
 					// doWarning = true, message if license is expired.
 	{
@@ -10041,6 +10233,7 @@ function getCSLBInfo(doPop,doWarning)   // doPop = true populate the cap lic pro
 	}
 
  
+ 
  function getDateDiff(DatetoComp) {
 
 
@@ -10068,6 +10261,7 @@ function getCSLBInfo(doPop,doWarning)   // doPop = true populate the cap lic pro
 
 
  
+ 
 function getDepartmentName(username)
 	{
 	var suo = aa.person.getUser(username).getOutput(); 
@@ -10083,6 +10277,7 @@ function getDepartmentName(username)
   	}
   
    
+ 
 function getDocOperation(docModelList)
 {
 
@@ -10114,6 +10309,7 @@ function getDocOperation(docModelList)
 	}
 }
  
+ 
 function getDocumentList() {
 	// Returns an array of documentmodels if any
 	// returns an empty array if no documents
@@ -10127,6 +10323,7 @@ function getDocumentList() {
 	}
 	return docListArray;
 } 
+ 
 function getGISBufferInfo(svc,layer,numDistance)
 	{
 	// returns an array of associative arrays
@@ -10197,6 +10394,7 @@ function getGISBufferInfo(svc,layer,numDistance)
 	}
 
  
+ 
 function getGISInfo(svc,layer,attributename)
 	{
 	// use buffer info to get info on the current object by using distance 0
@@ -10247,6 +10445,7 @@ function getGISInfo(svc,layer,attributename)
 	}
 
  
+ 
 function getGISInfoArray(svc,layer,attributename)
 	{
 	// use buffer info to get info on the current object by using distance 0
@@ -10296,6 +10495,7 @@ function getGISInfoArray(svc,layer,attributename)
 	return retArray;
 	}
 
+ 
  
 
 function getGuideSheetObjects(inspId) {
@@ -10348,6 +10548,7 @@ function getGuideSheetObjects(inspId) {
 	return retArray;
 	}
  
+ 
 /**
 * Add Inspection Result Sumbit After Parameters for use in Notification Templates. 
 * This should be called from InspectionResultSubmitAfter Event
@@ -10375,6 +10576,7 @@ function getInspectionResultParams4Notification(params) {
 	return params;
 
 } 
+ 
 /**
 * Add Inspection Schedule After Parameters for use in Notification Templates. 
 * This should be called from InspectionScheduleAfter Event
@@ -10406,6 +10608,7 @@ function getInspectionScheduleParams4Notification(params) {
 }
 
  
+ 
 // function getInspector: returns the inspector ID (string) of the scheduled inspection.  Returns the first result
 //
 function getInspector(insp2Check)
@@ -10425,6 +10628,7 @@ function getInspector(insp2Check)
 	return false;
 	}
 
+ 
  
 function getLastInspector(insp2Check)
 	// function getLastInspector: returns the inspector ID (string) of the last inspector to result the inspection.
@@ -10459,6 +10663,7 @@ function compareInspDateDesc(a, b) {
 	}
 	return (a.getScheduledDate().getEpochMilliseconds() < b.getScheduledDate().getEpochMilliseconds());
 } 
+ 
 function getLastScheduledInspector(insp2Check)
 	// function getLastInspector: returns the inspector ID (string) of the last inspector that is assigned to the inspection.
 	//
@@ -10481,6 +10686,7 @@ function getLastScheduledInspector(insp2Check)
 	}
 
  
+ 
 function getLicenseProfessional(itemcapId)
 {
 	capLicenseArr = null;
@@ -10502,6 +10708,7 @@ function getLicenseProfessional(itemcapId)
 	return capLicenseArr;
 }
  
+ 
 function getNextSequence(maskName) {
 	var agencySeqBiz = aa.proxyInvoker.newInstance("com.accela.sg.AgencySeqNextBusiness").getOutput();
 	var params = aa.proxyInvoker.newInstance("com.accela.domain.AgencyMaskDefCriteria").getOutput();
@@ -10514,6 +10721,7 @@ function getNextSequence(maskName) {
 
 	return seq;
 }
+ 
  
 function getNode(fString,fName)
 	{
@@ -10530,6 +10738,7 @@ function getNode(fString,fName)
 	 return unescape(fValue);
 	}
 	
+ 
  
 
 function GetOwnersByParcel()
@@ -10573,6 +10782,7 @@ if(parcels.getSuccess())
 
 } 
 } 
+ 
 function getParcelConditions(pType,pStatus,pDesc,pImpact) // optional capID
 {
 	var resultArray = new Array();
@@ -10662,6 +10872,7 @@ function getParcelConditions(pType,pStatus,pDesc,pImpact) // optional capID
 	return resultArray;
 }
  
+ 
 function getParent() 
 	{
 	// returns the capId object of the parent.  Assumes only one parent!
@@ -10686,6 +10897,7 @@ function getParent()
 	}
 
  
+ 
 function getParentByCapId(itemCap) 
 	{
 	// returns the capId object of the parent.  Assumes only one parent!
@@ -10708,6 +10920,7 @@ function getParentByCapId(itemCap)
 		return false;
 		}
 	} 
+ 
  function getParentCapID4Renewal() {
 
     parentLic = getParentLicenseCapID(capId); 
@@ -10724,6 +10937,7 @@ function getParentByCapId(itemCap)
 
 
 
+ 
  
 
 function getParentLicenseCapID(itemCap)
@@ -10766,6 +10980,7 @@ function getParentLicenseCapID(itemCap)
 }
 
  
+ 
 function getParents(pAppType) {
 	// returns the capId array of all parent caps
 	//Dependency: appMatch function
@@ -10806,6 +11021,7 @@ function getParents(pAppType) {
 		return null;
 	}
 } 
+ 
  function getPartialCapID(capid)
 
 {
@@ -10860,6 +11076,7 @@ function getParents(pAppType) {
 
 
 
+ 
  
  function getPeople(capId)
 
@@ -10936,6 +11153,7 @@ function getParents(pAppType) {
 
 
  
+ 
  function getPrimaryAddressLineParam4Notification(params) {
 
 	// pass in a hashtable and it will add the additional parameters to the table
@@ -10968,6 +11186,7 @@ function getParents(pAppType) {
 
 
 
+ 
  
  function getPrimaryOwnerParams4Notification(params) {
 
@@ -11010,6 +11229,7 @@ function getParents(pAppType) {
 
 
  
+ 
 function getProp(fString,fName)
 	{
 	 var fValue = "";
@@ -11026,6 +11246,7 @@ function getProp(fString,fName)
 	return unescape(fValue);
 	}
 
+ 
  
  function getRecordParams4Notification(params) {
 
@@ -11054,8 +11275,20 @@ function getProp(fString,fName)
 
 
  
+ 
+/**
+Title : getRefLicenseProf
+Purpose : Look up a Reference License Professional
+Functional Area : Licensing
+Description : Look up a Reference License Professional by the License Number and Optional License Type
+Script Type : EMSE, Pageflow, Batch
+Call Example: getRefLicenseProf("RN17-00058","Nurse Practitioner");
 
-function getRefLicenseProf(refstlic)
+@param refstlic {String}
+@param [licenseType] {String}
+@return {refLicObj}
+ */
+function getRefLicenseProf(refstlic,licenseType)
 	{
 	var refLicObj = null;
 	var refLicenseResult = aa.licenseScript.getRefLicensesProfByLicNbr(aa.getServiceProviderCode(),refstlic);
@@ -11066,13 +11299,19 @@ function getRefLicenseProf(refstlic)
 		var newLicArray = refLicenseResult.getOutput();
 		if (!newLicArray) return null;
 		for (var thisLic in newLicArray)
-			if (refstlic && newLicArray[thisLic] && refstlic.toUpperCase().equals(newLicArray[thisLic].getStateLicense().toUpperCase()))
+			if(!matches(licenseType,null,undefined,"")){
+				if (refstlic.toUpperCase().equals(newLicArray[thisLic].getStateLicense().toUpperCase()) && 
+					licenseType.toUpperCase().equals(newLicArray[thisLic].getLicenseType().toUpperCase()))
+					refLicObj = newLicArray[thisLic];
+			}
+			else if (refstlic && newLicArray[thisLic] && refstlic.toUpperCase().equals(newLicArray[thisLic].getStateLicense().toUpperCase()))
 				refLicObj = newLicArray[thisLic];
 		}
 
 	return refLicObj;
 	}
 
+ 
  
 
 function getRelatedCapsByAddress(ats) 
@@ -11136,6 +11375,7 @@ function getRelatedCapsByAddress(ats)
 	}
 
  
+ 
 
 function getRelatedCapsByParcel(ats) 
 //
@@ -11195,6 +11435,7 @@ function getRelatedCapsByParcel(ats)
 	}
 
  
+ 
  function getRenewalCapByParentCapIDForReview(parentCapid)
 
 {
@@ -11250,6 +11491,7 @@ function getRelatedCapsByParcel(ats)
 
 
  
+ 
 function getReportedChannel() // option CapId
 {
 	var itemCap = capId
@@ -11274,6 +11516,7 @@ function getReportedChannel() // option CapId
 	else
 		return "";
 }
+ 
  
  function getRootNode(nodeId, depth)
 {
@@ -11309,6 +11552,7 @@ function getReportedChannel() // option CapId
 
 
 
+ 
  
  function getRoots(nodeId)
 
@@ -11357,6 +11601,7 @@ function getReportedChannel() // option CapId
 
 
  
+ 
 function getScheduledInspId(insp2Check)
 	{
 	// warning, returns only the first scheduled occurrence
@@ -11371,6 +11616,7 @@ function getScheduledInspId(insp2Check)
 	return false;
 	}
 
+ 
  
 //
 // Get the standard choices domain for this application type
@@ -11402,6 +11648,7 @@ function getScriptAction(strControl)
 	return actArray;
 	}
 
+ 
  
 //
 // Get the standard choices domain for this application type
@@ -11440,6 +11687,7 @@ function getScriptAction_v1_6(strControl)
 	}
 
  
+ 
 function getScriptText(vScriptName, servProvCode, useProductScripts) {
 	if (!servProvCode)  servProvCode = aa.getServiceProviderCode();
 	vScriptName = vScriptName.toUpperCase();
@@ -11455,6 +11703,7 @@ function getScriptText(vScriptName, servProvCode, useProductScripts) {
 		return "";
 	}
 }
+ 
  
 function getShortNotes() // option CapId
 {
@@ -11480,6 +11729,7 @@ function getShortNotes() // option CapId
 	else
 		return "";
 }
+ 
  
 function getTaskDueDate(wfstr) // optional process name.
 {
@@ -11511,6 +11761,7 @@ function getTaskDueDate(wfstr) // optional process name.
 		}
 	}
 } 
+ 
 function getTaskStatusForEmail(stask) {
 	// returns a string of task statuses for a workflow group
 	var returnStr = ""
@@ -11533,6 +11784,7 @@ function getTaskStatusForEmail(stask) {
 	logDebug(returnStr);
 	return returnStr;
 } 
+ 
  function getURLToNewRecord(ACAURL,servProvCode,group,typetype,subtype,category) {
 
 
@@ -11579,6 +11831,7 @@ function getTaskStatusForEmail(stask) {
 
 }
  
+ 
 function getUserEmail() {
     //optional parameter for userid
     var userId = currentUserID;
@@ -11602,6 +11855,7 @@ function getUserEmail() {
         return false;
     }
 }
+ 
  
 function getUserFullName() {
     //optional parameter for userid
@@ -11631,6 +11885,7 @@ function getUserFullName() {
     }
 }
  
+ 
 /**
  * getUserObjs
  * Description: Returns an array of userObj objects for all users in the system
@@ -11659,6 +11914,7 @@ function getUserObjs(){
 	return userObjArray;
 	
 } 
+ 
 /**
  * getUserObjsByDiscipline
  * Description: Returns an array of userObj objects for all users in the system that match userDiscipline
@@ -11688,6 +11944,7 @@ function getUserObjsByDiscipline(userDiscipline){
 	
 	return userObjArray;
 } 
+ 
 /**
  * getUserObjsByDisciplineAndDistrict
  * Description: Returns an array of userObj objects for all users in the system that match userDiscipline and districtName
@@ -11723,6 +11980,7 @@ function getUserObjsByDisciplineAndDistrict(userDiscipline, districtName){
 	return userObjArray;
 	
 } 
+ 
 /**
  * getUserObjsByDistrict
  * Description: Returns an array of userObj objects for all users in the system that match districtName
@@ -11757,6 +12015,7 @@ function getUserObjsByDistrict(districtName){
 	return userObjArray;
 	
 } 
+ 
 /**
 * Add Workflow Task Update After Parameters for use in Notification Templates. 
 * This should be called from WorkflowTaskUpdateAfter Event
@@ -11785,6 +12044,7 @@ function getWorkflowParams4Notification(params) {
 	return params;
 
 } 
+ 
 
 function guideSheetObject(gguidesheetModel,gguidesheetItemModel)
 	{
@@ -11858,6 +12118,7 @@ function guideSheetObject(gguidesheetModel,gguidesheetItemModel)
 		}
 	}
 } 
+ 
 function handleError(err,context) {
 	var rollBack = true;
 	var showError = true;
@@ -11867,6 +12128,7 @@ function handleError(err,context) {
     logDebug("Stack: " + err.stack);
 	}
 	 
+ 
 //check if target CAP has primary address
 function hasPrimaryAddressInCap(capID) {
 	var isPrimaryAddressExist = false;
@@ -11886,6 +12148,7 @@ function hasPrimaryAddressInCap(capID) {
 	}
 	return isPrimaryAddressExist;
 } 
+ 
 
 function xmlEscapeXMLToHTML(xmlData) {
     /*************************************************************************************
@@ -11946,6 +12209,7 @@ function xmlEscapeXMLToHTML(xmlData) {
 }  // end function xmlEscapeXMLToHTML
 
  
+ 
 function include(s) {
 	try {
 	    var thisDate = new Date();
@@ -11959,6 +12223,7 @@ function include(s) {
 	catch (err) { handleError(err,s);	}
 	}
 	 
+ 
 function insertSubProcess(taskName, process, completeReqd) {
 
 	var itemCap = capId;
@@ -11993,6 +12258,7 @@ function insertSubProcess(taskName, process, completeReqd) {
 		return false;
 	}
 } 
+ 
 function insertTask(sourceTaskName,newTaskName,insertTaskType) 
 	{
 	itemCap = capId;
@@ -12042,6 +12308,7 @@ function insertTask(sourceTaskName,newTaskName,insertTaskType)
 	
 	return tTask;  // returns task item
 } 
+ 
 function inspCancelAll()
 	{
 	var isCancelled = false;
@@ -12074,6 +12341,7 @@ function inspCancelAll()
 	}
 
  
+ 
 function invoiceFee(fcode, fperiod) {
 	//invoices all assessed fees having fcode and fperiod
 	// SR5085 LL
@@ -12094,12 +12362,14 @@ function invoiceFee(fcode, fperiod) {
 	}
 	return feeFound;
 } 
+ 
  function isBlank(str) {
 
     return (!str || /^\s*$/.test(str));
 
 }
 
+ 
  
  function isEmpty(str) {
     return (!str || 0 === str.length);
@@ -12183,6 +12453,7 @@ function invoiceFee(fcode, fperiod) {
 
 
 
+ 
  
  function isMatchPeople(capContactScriptModel, capContactScriptModel2)
 
@@ -12291,6 +12562,7 @@ function invoiceFee(fcode, fperiod) {
 
 
  
+ 
 function isReadyRenew(capid) {
     if (capid == null || aa.util.instanceOfString(capid)) {
         return false;
@@ -12305,6 +12577,7 @@ function isReadyRenew(capid) {
     return false;
 }
 
+ 
  
 function isRenewProcess(parentCapID, partialCapID) {
     //1. Check to see parent CAP ID is null.
@@ -12339,6 +12612,7 @@ function isRenewProcess(parentCapID, partialCapID) {
     return isReadyRenew(parentCapID);
 }
  
+ 
  function isSameNode(node1, node2)
 
 {
@@ -12358,6 +12632,7 @@ function isRenewProcess(parentCapID, partialCapID) {
 
 
  
+ 
 function isScheduled(inspType)
 	{
 	var found = false;
@@ -12372,6 +12647,7 @@ function isScheduled(inspType)
 	return found;
 	}
 
+ 
  
 function isTaskActive(wfstr) // optional process name
 {
@@ -12400,6 +12676,7 @@ function isTaskActive(wfstr) // optional process name
 	}
 }
  
+ 
 function isTaskComplete(wfstr) // optional process name
 {
 	var useProcess = false;
@@ -12426,6 +12703,7 @@ function isTaskComplete(wfstr) // optional process name
 				return false;
 	}
 }
+ 
  
 function isTaskStatus(wfstr, wfstat) // optional process name
 {
@@ -12456,6 +12734,7 @@ function isTaskStatus(wfstr, wfstat) // optional process name
 	}
 	return false;
 }
+ 
  
 
 function jsDateToASIDate(dateValue)
@@ -12489,6 +12768,7 @@ function jsDateToASIDate(dateValue)
 }
 
  
+ 
 function jsDateToMMDDYYYY(pJavaScriptDate)
 	{
 	//converts javascript date to string in MM/DD/YYYY format
@@ -12511,6 +12791,7 @@ function jsDateToMMDDYYYY(pJavaScriptDate)
 	}
 
  
+ 
 function licEditExpInfo (pExpStatus, pExpDate)
 	{
 	//Edits expiration status and/or date
@@ -12530,10 +12811,33 @@ function licEditExpInfo (pExpStatus, pExpDate)
 	}
 	
  
-function licenseObject(licnumber)  // optional renewal Cap ID -- uses the expiration on the renewal CAP.
+ 
+/**
+Title : licenseObject
+Purpose : Licence Object Class
+Functional Area : Licensing
+Description : Licence Object Class that links Reference License Professional by the License Number and Optional License Type to allow updates
+Script Type : EMSE, Pageflow, Batch
+Call Example: var licObj = new licenseObject("RN17-00058", capId,"Nurse Practitioner");
+
+Methods: 
+setExpiration(expDate) - Update Expiration date on the Renewal and the linked Reference License
+setIssued(issuedDate) - Update Issued date on the linked Reference License
+setLastRenewal(lastRenewalAADate) - Update the Last Renewal date on the linked Reference License 
+setStatus(licStat) - Update Status on the Renewal
+getStatus() - Get the Renewal Expiration Status
+getCode() - Get the Renewal Expiration Code
+
+@param licnumber {String}
+@param [vCapId] {capId}
+@param [licenseType] {String}
+@return {refLicObj}
+ */
+
+function licenseObject(licnumber,vCapId,vLicType)  // optional renewal Cap ID -- uses the expiration on the renewal CAP.
 	{
 	itemCap = capId;
-	if (arguments.length == 2) itemCap = arguments[1]; // use cap ID specified in args
+	if (!matches(vCapId,undefined,null,"")) itemCap = vCapId; // use cap ID specified in args
 
 
 	this.refProf = null;		// licenseScriptModel (reference licensed professional)
@@ -12543,19 +12847,20 @@ function licenseObject(licnumber)  // optional renewal Cap ID -- uses the expira
 	this.b1Status = null;
 	this.refExpDate = null;
 	this.licNum = licnumber;	// License Number
+	this.licType = vLicType		// Licence Type (optional)
 
 
 	// Load the reference License Professional if we're linking the two
 	if (licnumber) // we're linking
 		{
-		var newLic = getRefLicenseProf(licnumber)
+		var newLic = getRefLicenseProf(licnumber,this.licType)
 		if (newLic)
 				{
 				this.refProf = newLic;
 				tmpDate = newLic.getLicenseExpirationDate();
 				if (tmpDate)
 						this.refExpDate = tmpDate.getMonth() + "/" + tmpDate.getDayOfMonth() + "/" + tmpDate.getYear();
-				logDebug("Loaded reference license professional with Expiration of " + this.refExpDate);
+				logDebug("(licenseObject) Loaded reference license professional with Expiration of " + this.refExpDate);
 				}
 		}
 
@@ -12569,10 +12874,10 @@ function licenseObject(licnumber)  // optional renewal Cap ID -- uses the expira
 			if (tmpDate)
 				this.b1ExpDate = tmpDate.getMonth() + "/" + tmpDate.getDayOfMonth() + "/" + tmpDate.getYear();
 			this.b1Status = this.b1Exp.getExpStatus();
-			logDebug("Found renewal record of status : " + this.b1Status + ", Expires on " + this.b1ExpDate);
+			logDebug("(licenseObject) Found renewal record of status : " + this.b1Status + ", Expires on " + this.b1ExpDate);
 			}
 		else
-			{ logDebug("**ERROR: Getting B1Expiration Object for Cap.  Reason is: " + b1ExpResult.getErrorType() + ":" + b1ExpResult.getErrorMessage()) ; return false }
+			{ logDebug("(licenseObject) **ERROR: Getting B1Expiration Object for Cap.  Reason is: " + b1ExpResult.getErrorType() + ":" + b1ExpResult.getErrorMessage()) ; return false }
 
 
    	this.setExpiration = function(expDate)
@@ -12583,34 +12888,34 @@ function licenseObject(licnumber)  // optional renewal Cap ID -- uses the expira
    		if (this.refProf) {
    			this.refProf.setLicenseExpirationDate(expAADate);
    			aa.licenseScript.editRefLicenseProf(this.refProf);
-   			logDebug("Updated reference license expiration to " + expDate); }
+   			logDebug("(licenseObject) Updated Reference License Expiration to " + expDate); }
 
    		if (this.b1Exp)  {
  				this.b1Exp.setExpDate(expAADate);
 				aa.expiration.editB1Expiration(this.b1Exp.getB1Expiration());
-				logDebug("Updated renewal to " + expDate); }
+				logDebug("(licenseObject) Updated Renewal Expiration Date to " + expDate); }
    		}
 
-	this.setIssued = function(expDate)
+	this.setIssued = function(issuedDate)
 		// Update Issued date
 		{
-		var expAADate = aa.date.parseDate(expDate);
+		var issuedAADate = aa.date.parseDate(issuedDate);
 
 		if (this.refProf) {
-			this.refProf.setLicenseIssueDate(expAADate);
+			this.refProf.setLicenseIssueDate(issuedAADate);
 			aa.licenseScript.editRefLicenseProf(this.refProf);
-			logDebug("Updated reference license issued to " + expDate); }
+			logDebug("(licenseObject) Updated Reference License Issued Date to " + issuedDate); }
 
 		}
-	this.setLastRenewal = function(expDate)
+	this.setLastRenewal = function(lastRenewalDate)
 		// Update expiration date
 		{
-		var expAADate = aa.date.parseDate(expDate)
+		var lastRenewalAADate = aa.date.parseDate(lastRenewalDate)
 
 		if (this.refProf) {
-			this.refProf.setLicenseLastRenewalDate(expAADate);
+			this.refProf.setLicenseLastRenewalDate(lastRenewalAADate);
 			aa.licenseScript.editRefLicenseProf(this.refProf);
-			logDebug("Updated reference license issued to " + expDate); }
+			logDebug("(licenseObject) Updated Reference License Last Renewal Date to " + lastRenewalDate); }
 		}
 
 	this.setStatus = function(licStat)
@@ -12619,7 +12924,7 @@ function licenseObject(licnumber)  // optional renewal Cap ID -- uses the expira
 		if (this.b1Exp)  {
 			this.b1Exp.setExpStatus(licStat);
 			aa.expiration.editB1Expiration(this.b1Exp.getB1Expiration());
-			logDebug("Updated renewal to status " + licStat); }
+			logDebug("(licenseObject) Updated Renewal Expiration Status to " + licStat); }
 		}
 
 	this.getStatus = function()
@@ -12631,13 +12936,13 @@ function licenseObject(licnumber)  // optional renewal Cap ID -- uses the expira
 		}
 
 	this.getCode = function()
-		// Get Expiration Status
+		// Get Expiration Code
 		{
 		if (this.b1Exp) {
 			return this.b1Exp.getExpCode();
 			}
 		}
-	}
+	} 
  
 /**
 * License Professional Object 
@@ -12663,7 +12968,8 @@ function licenseObject(licnumber)  // optional renewal Cap ID -- uses the expira
 *	setDisplayInACA4Table(vTableName, vIsVisible) - Makes table visible in ACA Lookup ('Y'/'N')
 *	getAttribute(vAttributeName) - Get method for attributes
 *	setAttribute(vAttributeName, vAttributeValue) - Set method for attributes
-*	updateFromRecordContactByType(vCapId, vContactType, vUpdateAddress, vUpdatePhoneEmail, [vAddressType]) - Update From Record Contact by Contact Type, uses first contact of type found. If contactType == "" then uses primary. If vAddressType is populated it will use contact address list rather than compact address
+*	setPrimary(vCapId,vPrimary) - Sets the Primary flag on the Record License Professional ('Y'/'N')
+*	updateFromRecordContactByType(vCapId, vContactType, vUpdateAddress, vUpdatePhoneEmail, [vAddressType]) - Update From Record Contact by Contact Type, uses first contact of type found. If contactType == "" then uses primary. If vAddressType is popualted it will use contact address list rather than compact address
 *	updateFromAddress(vCapId) - Updates Reference License Prof address to the primary address on the record
 *	updateFromRecordLicensedProf(vCapId) - Update Reference LP from Record Licensed Prof
 *	copyToRecord(vCapId, vReplace) - Copy Reference Licensed Professional to a Record
@@ -12710,7 +13016,7 @@ function licenseProfObject(licnumber, lictype) {
 					break;
 				}
 	}
-
+	
 	//Get the People Info Tables
 	if (this.refLicModel != null) {
 		this.infoTableGroupCodeObj = this.refLicModel.getInfoTableGroupCodeModel();
@@ -13033,6 +13339,30 @@ function licenseProfObject(licnumber, lictype) {
 		}
 		return retVal;
 	}
+	
+	this.setPrimary = function(vCapId,vPrimary){
+		//Get the LP from the Record
+	
+		if (this.valid) {
+			var capLicenseResult = aa.licenseProfessional.getLicenseProf(vCapId);
+			var capLicenseArr = new Array();
+			var existing = false;
+			if (capLicenseResult.getSuccess()) {
+				capLicenseArr = capLicenseResult.getOutput();
+			}
+
+			if (capLicenseArr != null) {
+				for (capLic in capLicenseArr) {
+					var lpsm = capLicenseArr[capLic];
+					if (lpsm.getLicenseNbr() + "" == this.refLicModel.getStateLicense() + ""
+						 && lpsm.getLicenseType() + "" == this.refLicModel.getLicenseType() + "") {
+							lpsm.setPrintFlag(vPrimary ? "Y" : "N");
+							aa.licenseProfessional.editLicensedProfessional(lpsm);
+					}
+				}
+			}
+		}
+	}
 
 	//Update From Record Contact by Contact Type
 	//Uses first contact of type found
@@ -13325,6 +13655,7 @@ function licenseProfObject(licnumber, lictype) {
 
 	return this
 } 
+ 
  function linkPublicUserToContact()   // optional: Contact Type, default Applicant
 
 {
@@ -13418,6 +13749,7 @@ function licenseProfObject(licnumber, lictype) {
 }
 
  
+ 
 function loadAddressAttributes(thisArr)
 {
 	//
@@ -13459,6 +13791,7 @@ function loadAddressAttributes(thisArr)
   	}
 }
  
+ 
 
 function loadAddressAttributes4ACA(thisArr)
 {
@@ -13499,6 +13832,7 @@ function loadAddressAttributes4ACA(thisArr)
 	thisArr["AddressAttribute.YCoordinate"] = fcapAddressObj.getYCoordinator();
 }
  
+ 
 function loadAppSpecific(thisArr) {
 	// 
 	// Returns an associative array of App Specific Info
@@ -13523,6 +13857,7 @@ function loadAppSpecific(thisArr) {
 		}
 	}
 
+ 
  
 function loadAppSpecific4ACA(thisArr) {
 	//
@@ -13577,6 +13912,7 @@ function loadAppSpecific4ACA(thisArr) {
 			}
 		}
 	} 
+ 
 function loadAppSpecific4Contact(thisArr, contactSeqNbr) {
 	var itemCap = capId;
 	if (arguments.length == 3)
@@ -13621,6 +13957,7 @@ function loadAppSpecific4Contact(thisArr, contactSeqNbr) {
 	}
 
 } 
+ 
 
 
 function loadASITable(tname) {
@@ -13682,6 +14019,7 @@ function loadASITable(tname) {
 	  return tempArray;
 	}
 
+ 
  
 
 function loadASITables() {
@@ -13751,6 +14089,7 @@ function loadASITables() {
 	}
 
  
+ 
 function loadASITables4ACA() {
 
  	//
@@ -13815,6 +14154,7 @@ function loadASITables4ACA() {
 
 	}
 
+ 
  
 function loadASITablesBefore() {
 
@@ -13883,6 +14223,7 @@ function loadASITablesBefore() {
 		}
 	}
 } 
+ 
 
 function loadFees()  // option CapId
 	{
@@ -13996,6 +14337,7 @@ function Fee() // Fee Object
 	}
 
  
+ 
 
 function loadGuideSheetItems(inspId) {
 	//
@@ -14041,6 +14383,7 @@ function loadGuideSheetItems(inspId) {
 	return retArray;
 	}
  
+ 
 function loadParcelAttributes(thisArr) {
 	//
 	// Returns an associative array of Parcel Attributes
@@ -14083,6 +14426,7 @@ function loadParcelAttributes(thisArr) {
 		thisArr["ParcelAttribute.PlanArea"] = fcapParcelObj[i].getPlanArea();
   		}
 	}
+ 
  
 function loadTasks(ltcapidstr)
 	{
@@ -14138,6 +14482,7 @@ function Task() // Task Object
 
 
  
+ 
 function loadTaskSpecific(thisArr) 
 	{
  	// 
@@ -14175,6 +14520,7 @@ function loadTaskSpecific(thisArr)
  		}
 	}
  
+ 
 function logDebug(dstr) {
 	vLevel = 1
 	if (arguments.length > 1)
@@ -14185,6 +14531,7 @@ function logDebug(dstr) {
 		aa.debug(aa.getServiceProviderCode() + " : " + aa.env.getValue("CurrentUserID"), dstr);
 }
  
+ 
 
 function logGlobals(globArray) {
 
@@ -14193,11 +14540,13 @@ function logGlobals(globArray) {
 	}
 
  
+ 
 
 function logMessage(dstr)
 	{
 	message+=dstr + br;
 	}
+ 
  
 function lookup(stdChoice,stdValue) 
 	{
@@ -14217,6 +14566,7 @@ function lookup(stdChoice,stdValue)
 	return strControl;
 	}
 
+ 
  
 function lookupDateRange(stdChoiceEntry,dateValue) // optional val number 
 	{
@@ -14255,6 +14605,7 @@ function lookupDateRange(stdChoiceEntry,dateValue) // optional val number
 		}
 	}	
  
+ 
 function lookupFeesByValuation(stdChoiceEntry,stdChoiceValue,capval) // optional arg number 
 	{
 	var valNumber = 1;
@@ -14287,6 +14638,7 @@ function lookupFeesByValuation(stdChoiceEntry,stdChoiceValue,capval) // optional
 	}
 
 
+ 
  
 function lookupFeesByValuationSlidingScale(stdChoiceEntry,stdChoiceValue,capval) // optional arg number 
 	{
@@ -14322,6 +14674,7 @@ function lookupFeesByValuationSlidingScale(stdChoiceEntry,stdChoiceValue,capval)
 	return saveVal;
 	}
 
+ 
  
 function loopTask(wfstr, wfstat, wfcomment, wfnote) // optional process name
 {
@@ -14360,6 +14713,7 @@ function loopTask(wfstr, wfstat, wfcomment, wfnote) // optional process name
 		}
 	}
 } 
+ 
 function lpSet(desiredSetId) {
 	this.refresh = function () {
 
@@ -14473,6 +14827,7 @@ function lpSet(desiredSetId) {
 
 }
  
+ 
 
 //
 // matches:  returns true if value matches any of the following arguments
@@ -14485,6 +14840,7 @@ function matches(eVal, argList) {
 	}
 	return false;
 } 
+ 
 function nextWorkDay(td)   
 	// uses app server to return the next work day.
 	// Only available in 6.3.2
@@ -14510,6 +14866,7 @@ function nextWorkDay(td)
 
 
  
+ 
 function openUrlInNewWindow(myurl)
  {
  //
@@ -14522,6 +14879,7 @@ function openUrlInNewWindow(myurl)
  comment(newurl)
  }
 
+ 
  
 function pairObj(actID) {
 	this.ID = actID;
@@ -14563,6 +14921,7 @@ function pairObj(actID) {
 		}
 	}
 } 
+ 
 function parcelConditionExists(condtype)
 	{
 	var capParcelResult = aa.parcel.getParcelandAttribute(capId,null);
@@ -14581,6 +14940,7 @@ function parcelConditionExists(condtype)
 		}
 	}
 
+ 
  
 function parcelExistsOnCap()
 {
@@ -14604,6 +14964,7 @@ function parcelExistsOnCap()
 
 	return false;
 }
+ 
  
 function paymentByTrustAccount(fSeqNbr) //optional: itemCap
   {
@@ -14790,6 +15151,7 @@ function paymentByTrustAccount(fSeqNbr) //optional: itemCap
 	 //everything committed successfully
 	 return true;
   } 
+ 
 function paymentByTrustAccount(fSeqNbr) //optional: itemCap
   {
 	// function  performs the following:
@@ -14992,6 +15354,7 @@ function paymentByTrustAccount(fSeqNbr) //optional: itemCap
 	 //everything committed successfully
 	 return true;
   } 
+ 
 function paymentGetNotAppliedTot() //gets total Amount Not Applied on current CAP
 	{
 	var amtResult = aa.cashier.getSumNotAllocated(capId);
@@ -15009,6 +15372,7 @@ function paymentGetNotAppliedTot() //gets total Amount Not Applied on current CA
 	return false;
 	}
 
+ 
  
 function prepareRenewal() {
 
@@ -15029,6 +15393,7 @@ function prepareRenewal() {
     else
     { logDebug("Renewal Process did not finish properly"); return false; }
 }
+ 
  
 function proximity(svc,layer,numDistance)  // optional: distanceType
 	{
@@ -15074,6 +15439,7 @@ function proximity(svc,layer,numDistance)  // optional: distanceType
 		}
 	}
 
+ 
  
 function proximityToAttribute(svc,layer,numDistance,distanceType,attributeName,attributeValue)
 	{
@@ -15123,6 +15489,7 @@ function proximityToAttribute(svc,layer,numDistance,distanceType,attributeName,a
 	}
 
  
+ 
 /**
  * Recalcs fees
  * @param itemCap {capIdModel}
@@ -15148,6 +15515,7 @@ function recalcFees(itemCap){
 	return res.getSuccess();
 }
 
+ 
  
 function refLicProfGetAttribute(pLicNum, pAttributeName)
 	{
@@ -15217,6 +15585,7 @@ function refLicProfGetAttribute(pLicNum, pAttributeName)
 		return false;
 		}
 	}
+ 
  
 function refLicProfGetDate (pLicNum, pDateType)
 	{
@@ -15322,6 +15691,7 @@ function refLicProfGetDate (pLicNum, pDateType)
 	}
 
  
+ 
 function removeAllFees(itemCap) // Removes all non-invoiced fee items for a CAP ID
 {
 	getFeeResult = aa.fee.getFeeItems(itemCap, null, "NEW");
@@ -15348,6 +15718,7 @@ function removeAllFees(itemCap) // Removes all non-invoiced fee items for a CAP 
 	}
 
 } 
+ 
 	function removeASITable(tableName) // optional capId
   	{
 	//  tableName is the name of the ASI table
@@ -15365,6 +15736,7 @@ function removeAllFees(itemCap) // Removes all non-invoiced fee items for a CAP 
 
 	}
 
+ 
  
 function removeCapCondition(cType,cDesc)
 	{
@@ -15390,6 +15762,7 @@ function removeCapCondition(cType,cDesc)
 			}
 	}
 
+ 
  
 function removeFee(fcode, fperiod) // Removes all fee items for a fee code and period
 {
@@ -15417,6 +15790,7 @@ function removeFee(fcode, fperiod) // Removes all fee items for a fee code and p
 	}
 
 } 
+ 
 function removeParcelCondition(parcelNum,cType,cDesc)
 //if parcelNum is null, condition is added to all parcels on CAP
 	{
@@ -15469,6 +15843,7 @@ function removeParcelCondition(parcelNum,cType,cDesc)
 	}
 
  
+ 
 function removeRefContactAddressFromRecordContact(itemCap,cSeqNumber,rConAddrModel) {
 
 	if (itemCap && cSeqNumber && rConAddrModel) {
@@ -15495,6 +15870,7 @@ function removeRefContactAddressFromRecordContact(itemCap,cSeqNumber,rConAddrMod
 	}
 
 } 
+ 
 function removeTask(targetCapId, removeTaskName) // optional process name
 {
 	var useProcess = false;
@@ -15540,6 +15916,7 @@ function removeTask(targetCapId, removeTaskName) // optional process name
 
 }
  
+ 
 function replaceMessageTokens(m)
 	{
 	//  tokens in pipes will attempt to interpret as script variables
@@ -15581,6 +15958,7 @@ function replaceMessageTokens(m)
 	 return m
 	 }
  
+ 
 
 
 function replaceNode(fString,fName,fContents)
@@ -15600,6 +15978,7 @@ function replaceNode(fString,fName,fContents)
 
 	}
 
+ 
  
 function resultInspection(inspType, inspStatus, resultDate, resultComment) //optional capId
 {
@@ -15629,6 +16008,7 @@ function resultInspection(inspType, inspStatus, resultDate, resultComment) //opt
 	}
 
 }
+ 
  
 /**
  * results workflow task and sets the status and performs next step based on configured status
@@ -15684,6 +16064,7 @@ function resultWorkflowTask(wfstr, wfstat, wfcomment, wfnote) // optional proces
 		}
 	}
 } 
+ 
 function runEvent(eventName, controlString) {
 	try {
 		var savePrefix = prefix; // store value of global variable
@@ -15714,6 +16095,7 @@ function runEvent(eventName, controlString) {
 	}
 }
  
+ 
 function runReport4Email(itemCap,reportName,conObj,rParams,eParams,emailTemplate,module,mailFrom) {
 	//If email address available for contact type then email the report, otherwise return false;
 
@@ -15742,6 +16124,7 @@ function runReport4Email(itemCap,reportName,conObj,rParams,eParams,emailTemplate
 		return false;
 	}
 }
+ 
  
 function runReport4EmailOrPrint(itemCap,reportName,conObj,rParams,eParams,emailTemplate,module) {
 	//If email address available for contact type then email the report, otherwise pop up the report on the screen
@@ -15774,6 +16157,7 @@ function runReport4EmailOrPrint(itemCap,reportName,conObj,rParams,eParams,emailT
 		comment(rOutput);
 	}
 } 
+ 
 
 function runReportAttach(itemCapId,aaReportName)
 	{
@@ -15821,6 +16205,7 @@ function runReportAttach(itemCapId,aaReportName)
 		logDebug("No permission to report: "+ reportName + " for user: " + currentUserID);
 }
  
+ 
 /**
  * Schedule Inspection
  * @param itemCap {capIDModel}
@@ -15860,6 +16245,7 @@ function scheduleInspect(itemCap,iType,DaysAhead) // optional inspector ID.  Thi
 		logDebug( "**ERROR: adding scheduling inspection (" + iType + "): " + schedRes.getErrorMessage());
 	}
  
+ 
 function scheduleInspectDate(iType,DateToSched) // optional inspector ID.
 // DQ - Added Optional 4th parameter inspTime Valid format is HH12:MIAM or AM (SR5110)
 // DQ - Added Optional 5th parameter inspComm
@@ -15892,6 +16278,7 @@ function scheduleInspectDate(iType,DateToSched) // optional inspector ID.
 	}
 
  
+ 
 function scheduleInspection(iType,DaysAhead) // optional inspector ID.  This function requires dateAdd function
 	{
 	// DQ - Added Optional 4th parameter inspTime Valid format is HH12:MIAM or AM (SR5110) 
@@ -15923,6 +16310,7 @@ function scheduleInspection(iType,DaysAhead) // optional inspector ID.  This fun
 		logDebug( "**ERROR: adding scheduling inspection (" + iType + "): " + schedRes.getErrorMessage());
 	}
 
+ 
  
 
 function searchProject(pProjType,pSearchType) 
@@ -16044,6 +16432,7 @@ function searchProject(pProjType,pSearchType)
 }
 
  
+ 
  function sendNotification(emailFrom,emailTo,emailCC,templateName,params,reportFile)
 
 {
@@ -16094,6 +16483,7 @@ function searchProject(pProjType,pSearchType)
 
 }
  
+ 
 function setContactTypeFlagByType(itemCap) {
 	
 	var contactsA = getContactObjs(itemCap);
@@ -16112,6 +16502,7 @@ function setContactTypeFlagByType(itemCap) {
 	}	
 }
 
+ 
  
 function setIVR(ivrnum)
 	{
@@ -16144,6 +16535,7 @@ function setIVR(ivrnum)
 	}
 
 
+ 
  
  function setLicExpirationDate(itemCap) {
 
@@ -16309,6 +16701,7 @@ function setIVR(ivrnum)
 
 }
  
+ 
 function setTask(wfstr, isOpen, isComplete) // optional process name isOpen, isComplete take 'Y' or 'N'
 {
 	var useProcess = false;
@@ -16343,6 +16736,7 @@ function setTask(wfstr, isOpen, isComplete) // optional process name isOpen, isC
 	}
 }
  
+ 
 String.prototype.trim = String.prototype.trim || function() {
         return this.replace(/^\s+|\s+$/,"");
 }
@@ -16354,6 +16748,7 @@ String.prototype.left = function(n) {
 String.prototype.right = function(n) {
         return this.substr((this.length-n),this.length);
 }; 
+ 
 function stripNN(fullStr) {
     var allowed = "0123456789.";
     var stripped = "";
@@ -16362,6 +16757,7 @@ function stripNN(fullStr) {
         stripped += String.fromCharCode(fullStr.charAt(i))
     return stripped;
 }
+ 
  
 function taskCloseAllExcept(pStatus,pComment) 
 	{
@@ -16420,6 +16816,7 @@ function taskCloseAllExcept(pStatus,pComment)
 	}
 
  
+ 
 function taskStatus(wfstr) // optional process name and capID
 {
 	var useProcess = false;
@@ -16449,6 +16846,7 @@ function taskStatus(wfstr) // optional process name and capID
 			return fTask.getDisposition()
 	}
 } 
+ 
 /*
 DQ 09/03/2009 - Added Check to ensure Task status date is not null prior to getting status date
 Function will return false on fail
@@ -16486,6 +16884,7 @@ function taskStatusDate(wfstr) // optional process name, capId
 	}
 }
  
+ 
 
 function token(tstr)
 	{
@@ -16497,6 +16896,7 @@ function token(tstr)
 	return String(tstr);
   	}
 
+ 
  
 
 function transferFeesAndPayments(sourceCapId, targetCapId) {
@@ -16628,6 +17028,7 @@ function transferFeesAndPayments(sourceCapId, targetCapId) {
 		}
 }
  
+ 
 function transferFunds(parentAppNum,dollarAmount) 
 // does fund transfer from current app to parentAppNum, but only if current app has enough non-applied funds
 // needs function paymentGetNotAppliedTot()
@@ -16669,6 +17070,7 @@ function transferFunds(parentAppNum,dollarAmount)
 		}
 	}
 
+ 
  
 function transferReceiptAndApply(receiptCapId,targetCapId)
 {
@@ -16762,6 +17164,7 @@ function transferReceiptAndApply(receiptCapId,targetCapId)
     }
 
 } 
+ 
 function updateAppStatus(stat,cmt) // optional cap id
 {
 	var itemCap = capId;
@@ -16775,6 +17178,7 @@ function updateAppStatus(stat,cmt) // optional cap id
 		logDebug("**ERROR: application status update to " + stat + " was unsuccessful.  The reason is "  + updateStatusResult.getErrorType() + ":" + updateStatusResult.getErrorMessage());
 }
 
+ 
  
  function updateEnfOfficer(enfName) // option CapId
 
@@ -16828,6 +17232,7 @@ function updateAppStatus(stat,cmt) // optional cap id
 
 
 
+ 
  
 function updateFee(fcode, fsched, fperiod, fqty, finvoice, pDuplicate, pFeeSeq) {
 	// Updates an assessed fee with a new Qty.  If not found, adds it; else if invoiced fee found, adds another with adjusted qty.
@@ -16905,6 +17310,7 @@ function updateFee(fcode, fsched, fperiod, fqty, finvoice, pDuplicate, pFeeSeq) 
 	updateFeeItemInvoiceFlag(feeSeq, finvoice);
 	return feeSeq;
 } 
+ 
 function updateFeeItemInvoiceFlag(feeSeq,finvoice)
 {
 	if(feeSeq == null)
@@ -16920,6 +17326,7 @@ function updateFeeItemInvoiceFlag(feeSeq,finvoice)
 		}
 	}
 }
+ 
  
 function updateGuidesheetASIField(inspId,gName,gItem,asiGroup,asiSubGroup, asiLabel,newValue) {
 	//updates the guidesheet ID to nGuideSheetID if not currently populated
@@ -16998,6 +17405,7 @@ function updateGuidesheetASIField(inspId,gName,gItem,asiGroup,asiSubGroup, asiLa
 	logDebug("No updates to the guidesheet made");
 	return false;
 }  
+ 
 function updateGuidesheetID(inspId,gName,nGuideSheetID) {
 	//updates the guidesheet ID to nGuideSheetID if not currently populated
 	//optional capId
@@ -17045,6 +17453,7 @@ function updateGuidesheetID(inspId,gName,nGuideSheetID) {
 	logDebug("No updates to the guidesheet made");
 	return false;
 } 
+ 
 function updatePlanReviewWorkflow(wfTask,status,wfComments,updateIndicator) {
 	// updateIndicator determines if to update workflow or inspection
 	// if a value of "W" workflow will be updated
@@ -17088,6 +17497,7 @@ function updatePlanReviewWorkflow(wfTask,status,wfComments,updateIndicator) {
 	}
 }
  
+ 
 function updateRefParcelToCap() //Takes Optional CapId
 {
 	var vCapId = null;
@@ -17127,6 +17537,7 @@ function updateRefParcelToCap() //Takes Optional CapId
 		}
 	}
 }  
+ 
 
 function updateShortNotes(newSN) // option CapId
 	{
@@ -17154,6 +17565,7 @@ function updateShortNotes(newSN) // option CapId
 		{ logDebug("**ERROR writing capdetail : " + cdWrite.getErrorMessage()) ; return false ; }
 	}
 
+ 
  
 function updateTask(wfstr, wfstat, wfcomment, wfnote) // optional process name, cap id
 {
@@ -17196,6 +17608,7 @@ function updateTask(wfstr, wfstat, wfcomment, wfnote) // optional process name, 
 	}
 }
  
+ 
 function updateTaskAssignedDate(wfstr, wfAssignDate) // optional process name
 {
 	// Update the task assignment date
@@ -17235,6 +17648,7 @@ function updateTaskAssignedDate(wfstr, wfAssignDate) // optional process name
 		}
 	}
 } 
+ 
 function updateTaskDepartment(wfstr, wfDepartment) // optional process name
 {
 	// Update the task assignment department
@@ -17275,6 +17689,7 @@ function updateTaskDepartment(wfstr, wfDepartment) // optional process name
 	}
 }
  
+ 
 function updateWorkDesc(newWorkDes) // optional CapId
 {
 	var itemCap = capId
@@ -17304,6 +17719,7 @@ function updateWorkDesc(newWorkDes) // optional CapId
 	aa.print("Updated Work Description to : " + newWorkDes);
 
 }
+ 
  
 /**
  * User Object
@@ -17413,6 +17829,7 @@ function userObj(vUserId){
 		return disciplineArray;
 	}	
 } 
+ 
 function validateGisObjects()
 	{
 	// returns true if the app has GIS objects that validate in GIS
@@ -17437,6 +17854,7 @@ function validateGisObjects()
 		}
 	}
 
+ 
  
 /*  Verhoeff algorithm for check digit	http://en.wikipedia.org/wiki/Verhoeff_algorithm
 
@@ -17497,6 +17915,7 @@ function verhoeff() {
 	    return num + Inv[ check ];
 	}
 } 
+ 
 function workDescGet(pCapId)
 	{
 	//Gets work description
@@ -17516,6 +17935,7 @@ function workDescGet(pCapId)
 	return workDesc;
 	}
 	 
+ 
 function zeroPad(num,count)
 { 
 var numZeropad = num + '';
