@@ -3784,7 +3784,7 @@ function contactObj(ccsm)  {
 					 var lpObjResult = aa.licenseScript.getRefLicenseProfBySeqNbr(aa.getServiceProviderCode(),lpSeqNbr);
 					 var refLicNum = lpObjResult.getOutput().getStateLicense();
 					 
-					 refLicProfObjArray.push(new licenseProfObject1(refLicNum));
+					 refLicProfObjArray.push(new licenseProfObject(refLicNum));
 				 
 				 }
 				

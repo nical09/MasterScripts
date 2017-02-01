@@ -40,6 +40,12 @@ if (bzr.getSuccess() && bzr.getOutput().getAuditStatus() != "I") {
 	}
 }
 
+var timeLog = aa.env.getValue("TimeLogModel");
+
+if (timeLog != "" && timeLog != null && timeLog.getReference().substr("-")) {
+	aa.env.setValue("CapId", String(timeLog.getReference())); // populate capID for INCLUDES_ACCELA_GLOBALS
+}
+
 if (SA) {
 	eval(getScriptText("INCLUDES_ACCELA_FUNCTIONS", SA));
 	eval(getScriptText("INCLUDES_ACCELA_GLOBALS", SA));
@@ -91,40 +97,42 @@ function getScriptText(vScriptName, servProvCode, useProductScripts) {
 | BEGIN Event Specific Variables
 /------------------------------------------------------------------------------------------------------*/
 
-var timeLog = aa.env.getValue("TimeLogModel");
-
-logDebug("<B>EMSE Script Results for Time Log</B>");
-logDebug("timeLog= " 		      + timeLog.getClass());
-logDebug("getServProvCode="           + timeLog.getServProvCode());
-logDebug("getTimeLogSeq="             + timeLog.getTimeLogSeq()); 
-logDebug("getTimeGroupSeq="           + timeLog.getTimeGroupSeq()); 
-logDebug("getTimeTypeSeq="            + timeLog.getTimeTypeSeq());
-logDebug("getReference="              + timeLog.getReference());  
-logDebug("getDateLogged="             + timeLog.getDateLogged()); 
-logDebug("getStartTime="              + timeLog.getStartTime()); 
-logDebug("getEndTime="                + timeLog.getEndTime()); 
-logDebug("TimeElapsed="   + timeLog.getTimeElapsed().getHours()+ ":" + timeLog.getTimeElapsed().getMinutes());  
-logDebug("getTotalMinutes="           + timeLog.getTotalMinutes()); 
-logDebug("getBillable="               + timeLog.getBillable()); 
-logDebug("getMaterials="              + timeLog.getMaterials()); 
-logDebug("getMaterialsCost="          + timeLog.getMaterialsCost()); 
-logDebug("getMileageStart="           + timeLog.getMileageStart()); 
-logDebug("getMileageEnd="             + timeLog.getMileageEnd()); 
-logDebug("getMilageTotal="            + timeLog.getMilageTotal());
-logDebug("getVehicleId="              + timeLog.getVehicleId());
-logDebug("getEntryRate="              + timeLog.getEntryRate()); 
-logDebug("getEntryPct="               + timeLog.getEntryPct()); 
-logDebug("getEntryCost="              + timeLog.getEntryCost()); 
-logDebug("getCreatedDate="            + timeLog.getCreatedDate()); 
-logDebug("getCreatedBy="              + timeLog.getCreatedBy()); 
-logDebug("getNotation="               + timeLog.getNotation()); 
-logDebug("getLastChangeDate()="       + timeLog.getLastChangeDate()); 
-logDebug("getLastChangeUser()="       + timeLog.getLastChangeUser());
-logDebug("getTimeTypeModel()="        + timeLog.getTimeTypeModel());
-logDebug("getTimeTypeModel().getTimeTypeName()=" + timeLog.getTimeTypeModel().getTimeTypeName());
-logDebug("getTimeTypeModel().getTimeTypeDesc()=" + timeLog.getTimeTypeModel().getTimeTypeDesc());
-logDebug("getTimeTypeModel().getDefaultPctAdj()=" + timeLog.getTimeTypeModel().getDefaultPctAdj());
-logDebug("getTimeTypeModel().getDefaultRate()=" + timeLog.getTimeTypeModel().getDefaultRate());
+if (timeLog != "" && timeLog != null) {
+	logDebug("<B>EMSE Script Results for Time Log</B>");
+	logDebug("getReference=" + timeLog.getReference());
+	logDebug("timeLog= " + timeLog.getClass());
+	logDebug("getServProvCode=" + timeLog.getServProvCode());
+	logDebug("getTimeLogSeq=" + timeLog.getTimeLogSeq());
+	logDebug("getTimeGroupSeq=" + timeLog.getTimeGroupSeq());
+	logDebug("getTimeTypeSeq=" + timeLog.getTimeTypeSeq());
+	logDebug("getDateLogged=" + timeLog.getDateLogged());
+	logDebug("getStartTime=" + timeLog.getStartTime());
+	logDebug("getEndTime=" + timeLog.getEndTime());
+	logDebug("TimeElapsed=" + timeLog.getTimeElapsed().getHours() + ":" + timeLog.getTimeElapsed().getMinutes());
+	logDebug("getTotalMinutes=" + timeLog.getTotalMinutes());
+	logDebug("getBillable=" + timeLog.getBillable());
+	logDebug("getMaterials=" + timeLog.getMaterials());
+	logDebug("getMaterialsCost=" + timeLog.getMaterialsCost());
+	logDebug("getMileageStart=" + timeLog.getMileageStart());
+	logDebug("getMileageEnd=" + timeLog.getMileageEnd());
+	logDebug("getMilageTotal=" + timeLog.getMilageTotal());
+	logDebug("getVehicleId=" + timeLog.getVehicleId());
+	logDebug("getEntryRate=" + timeLog.getEntryRate());
+	logDebug("getEntryPct=" + timeLog.getEntryPct());
+	logDebug("getEntryCost=" + timeLog.getEntryCost());
+	logDebug("getCreatedDate=" + timeLog.getCreatedDate());
+	logDebug("getCreatedBy=" + timeLog.getCreatedBy());
+	logDebug("getNotation=" + timeLog.getNotation());
+	logDebug("getLastChangeDate()=" + timeLog.getLastChangeDate());
+	logDebug("getLastChangeUser()=" + timeLog.getLastChangeUser());
+	logDebug("getTimeTypeModel()=" + timeLog.getTimeTypeModel());
+	if (timeLog.getTimeTypeModel()) {
+		logDebug("getTimeTypeModel().getTimeTypeName()=" + timeLog.getTimeTypeModel().getTimeTypeName());
+		logDebug("getTimeTypeModel().getTimeTypeDesc()=" + timeLog.getTimeTypeModel().getTimeTypeDesc());
+		logDebug("getTimeTypeModel().getDefaultPctAdj()=" + timeLog.getTimeTypeModel().getDefaultPctAdj());
+		logDebug("getTimeTypeModel().getDefaultRate()=" + timeLog.getTimeTypeModel().getDefaultRate());
+	}
+}
 
 /*------------------------------------------------------------------------------------------------------/
 | END Event Specific Variables

@@ -90,14 +90,6 @@ function getScriptText(vScriptName, servProvCode, useProductScripts) {
 /*------------------------------------------------------------------------------------------------------/
 | BEGIN Event Specific Variables
 /------------------------------------------------------------------------------------------------------*/
-var parentCapId = null;
-
-var parentCapString = "" + aa.env.getValue("ParentCapID");
-if (parentCapString.length > 0){ 
-	parentArray = parentCapString.split("-");
-	if(parentArray.length == 3)
-		parentCapId = aa.cap.getCapID(parentArray[0], parentArray[1], parentArray[2]).getOutput(); 
-}
 
 /*------------------------------------------------------------------------------------------------------/
 | END Event Specific Variables
