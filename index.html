@@ -1,0 +1,128 @@
+
+<head>
+<meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="../../favicon.ico">
+
+    <title>Blog Template for Bootstrap</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" rel="stylesheet">
+</head>
+<div class="blog-header">
+    <div class="container">
+    <h1 class="blog-title">Civic Platform Scripting Standards</h1>
+    <p class="lead blog-description">Script coding standards for the Accela Civic Platform</p>
+    </div>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-sm-8 blog-main">
+            <div class="blog-post">
+                <h2 class="blog-post-title">Auto Generate Script Documentation using JSDoc</h2>
+                <p>JSDoc is a markup language used to annotate JavaScript source code files. Using comments containing JSDoc, programmers can add documentation describing the application programming interface of the code they're creating.</p>
+                <hr>
+                <h2>Comment Code using JSDoc</h2>
+                <p>You add documentation comments directly to your source code, right along side the code itself. The JSDoc Tool will scan your source code, and generate a complete HTML documentation website for you.</p>
+                <h3>Event Scripts</h3>
+                <h4>Script File Header</h4>
+                <p>Add a header to the top of every event script file.</p>
+                <ul>
+                    <li>Enter a description for the script. The description does not require a tag.</li>
+                    <li>Include the @namespace tag for the event script. The namespace should match the event script variable branching, without the * between slashes.</li>
+                </ul>   
+    <pre><code>
+    /**
+    * Workflow automation for all Service Requests
+    * 
+    * @namespace WTUA:ServiceRequest///
+    */
+    </code></pre>
+                <hr>
+                <h4>Create Functions for Code Blocks</h4>
+                <p>Organize each code block into in-line functions in each event script file.</p>
+                <ul>
+                    <li>Create functions based on common business rules and logic.</li>
+                    <li>Add a JSDoc comment block above each function.</li>
+                    <li>Enter a description for the function. The description should include details about the business rule and the automation that will be executed.</li>
+                    <li>Include the @memberof tag followed by the namespace declared in the file header.</li>
+                </ul>   
+    <pre><code>
+    /**
+    * Workflow automation for all Service Requests
+    * @namespace WTUA:ServiceRequest///
+    */
+
+    autoCreateSRInspection();
+    autoCreateEnforcementOrWorkOrder();
+
+    /**
+    * Schedule inspection when Task = "Intake" and Status = "Inspection Required"
+    * @memberOf WTUA:ServiceRequest///
+    */
+    function autoCreateSRInspection(){
+        try {
+
+            if(wfTask=="Intake" && wfStatus=="Inspection Required") {
+            // TO DO: Auto schedule inspection on SR
+            }
+        }
+        catch (err) {
+            logDebug("Error scheduling SR inspection: " + err);
+        }
+    }
+    </code></pre>
+                <hr>
+                <h4>Documenting Custom Functions</h4>
+                <p>Add JSDoc comments above each custom function included in an event script.</p>
+                <ul>
+                    <li>Enter a description for the function. The description should be a high level story of the function usage.</li>
+                    <li>Add an @example tag with a simple example of how to use the function.</li>
+                    <li>Add the @memberof tag followed by the namespace declared in the file header.</li>
+                    <li>Add @param tags for each of the parameters required by the function. Syntax: @param {object type} requiredParamName.</li>
+                    <li>Add @param tags for optional parameters by adding brackets [] around the param name. Syntax: @param {object type} [opionalParamName].</li>
+                    <li>Add an @returns tag if the function has a return variable.</li>
+                </ul>   
+    <pre><code>
+    /**
+    * Updates Core SR custom fields from the shadow record custom list CRM INFO-CUSTOM
+    * CRM SR custom field names must match Core SR custom field names in order to sync
+    * @example
+        var coreReqCapId = getApplication(coreReqRecordID)
+        updateCustomFieldsFromCRM(capId, coreReqCapId);
+    * @memberof ASIUA:ServiceRequest/CRM/CRM/NA
+    * @param {CapIdObject} crmCapId The capId of the CRM shadow record
+    * @param {CapIdObject} coreCapId The capId of the Core Service Request
+    * @returns {boolean} Indicates whether the update was successful or not (true or false)
+    */
+    function updateCustomFieldsFromCRM(crmCapId,coreCapId) {
+        var crmCustomFieldArray = loadASITable("CRM INFO-CUSTOM");
+        for (row in crmCustomFieldArray)
+        {
+            // get the value from ASIT to compare
+            var crmFieldName = crmCustomFieldArray[row]["Name"];
+            var crmFieldVal = crmCustomFieldArray[row]["Value"];
+
+            // update the Core SR custom fields that match the CRM custom fields
+            editAppSpecific(crmFieldName, crmFieldVal, coreReqCapId);
+        }
+    }
+    </code></pre>
+            </div><!-- /.blog-post -->
+        </div><!-- /.blog-main -->
+
+        <div class="col-sm-3 offset-sm-1 blog-sidebar">
+            <div class="sidebar-module">
+                <h4>Topics</h4>
+                <ol class="list-unstyled">
+                    <li><a href="#">Documentation Generator (JSDoc)</a></li>
+                    <li><a href="#">Coding Standards</a></li>
+                    <li><a href="#">JavaScript Style Guide</a></li>
+                </ol>
+            </div>
+        </div><!-- /.blog-sidebar -->
+    </div><!-- /.row -->
+</div><!-- /.container -->
