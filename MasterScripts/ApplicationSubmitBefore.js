@@ -56,10 +56,12 @@ if (bzr) {
 
 if (SA) {
 	eval(getScriptText("INCLUDES_ACCELA_FUNCTIONS", SA,useCustomScriptFile));
+	eval(getScriptText("INCLUDES_ACCELA_FUNCTIONS_ASB", SA,useCustomScriptFile));
 	eval(getScriptText("INCLUDES_ACCELA_GLOBALS", SA,useCustomScriptFile));
 	eval(getScriptText(SAScript, SA));
 } else {
 	eval(getScriptText("INCLUDES_ACCELA_FUNCTIONS",null,useCustomScriptFile));
+	eval(getScriptText("INCLUDES_ACCELA_FUNCTIONS_ASB"),null,useCustomScriptFile);
 	eval(getScriptText("INCLUDES_ACCELA_GLOBALS",null,useCustomScriptFile));
 }
 
