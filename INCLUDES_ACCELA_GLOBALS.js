@@ -24,7 +24,7 @@ var maxEntries = 99;			// Maximum number of std choice entries.  Entries must be
 /*------------------------------------------------------------------------------------------------------/
 | END User Configurable Parameters
 /------------------------------------------------------------------------------------------------------*/
-var GLOBAL_VERSION = 3.22;
+var GLOBAL_VERSION = "3.2.2";
 
 var cancel = false;
 

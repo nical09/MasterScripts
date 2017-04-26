@@ -3,7 +3,7 @@ function addParent(parentAppNum)
 // adds the current application to the parent
 //
 	{
-	if (typeof(parentAppNum) != "object")  // is this one an object or string?
+	if (parentAppNum.getID1 == undefined)  // is this one an object or string?
 		{
 		var getCapResult = aa.cap.getCapID(parentAppNum);
 		if (getCapResult.getSuccess())

@@ -1,7 +1,6 @@
 function doScriptActions() {
 	include(prefix + ":" + "*/*/*/*");
 	if (typeof(appTypeArray) == "object") {
-			include(prefix + ":*/*/*/*");
 			include(prefix + ":" + appTypeArray[0] + "/*/*/*");
 			include(prefix + ":" + appTypeArray[0] + "/" + appTypeArray[1] + "/*/*");
 			include(prefix + ":" + appTypeArray[0] + "/" + appTypeArray[1] + "/" + appTypeArray[2] + "/*");
