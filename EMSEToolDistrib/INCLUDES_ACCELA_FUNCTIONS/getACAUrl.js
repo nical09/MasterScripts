@@ -12,6 +12,7 @@ function getACAUrl(){
 
 	// returns the path to the record on ACA.  Needs to be appended to the site
 
+	itemCap = (arguments.length == 1) ? itemCap = arguments[0] : itemCap = capId;
 	var enableCustomWrapper = lookup("ACA_CONFIGS","ENABLE_CUSTOMIZATION_PER_PAGE");
    	var acaUrl = "";
 	var id1 = itemCap.getID1();
