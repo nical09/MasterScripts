@@ -616,7 +616,7 @@ function contactObj(ccsm)  {
 			}
 			else
 			{
-			  logDebug("**ERROR:Some Parameters are empty");
+			  logDebug("(contactObj.getRelatedRefLicProfObjs) Some Parameters were empty - unable to get related LPs");
 			}
 
 		}
@@ -665,7 +665,7 @@ function contactObj(ccsm)  {
 			}
 			else
 			{
-			  logDebug("**ERROR:Some Parameters are empty");
+			  logDebug("(contactObj.linkRefContactWithRefLicProf) Some Parameters are empty - License professional failed to link to reference contact.");
 			}
 
 		}
