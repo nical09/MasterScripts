@@ -363,7 +363,8 @@ function licenseProfObject(licnumber, lictype) {
 			if (tmpIterator.hasNext()) {
 				var tmpAttribs = tmpIterator.next().toArray();
 				for (x in tmpAttribs) {
-					this.attribs[tmpAttribs[x].getAttributeLabel().toUpperCase()] = tmpAttribs[x];
+					if(tmpAttribs[x].getAttributeLabel())
+						this.attribs[tmpAttribs[x].getAttributeLabel().toUpperCase()] = tmpAttribs[x];
 				}
 				this.validAttrs = true;
 			}
