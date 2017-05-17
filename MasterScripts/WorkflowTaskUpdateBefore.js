@@ -1,6 +1,6 @@
 /*------------------------------------------------------------------------------------------------------/
 | SVN $Id: WorkflowTaskUpdateBefore.js 6515 2012-03-16 18:15:38Z john.schomp $
-| Program : WorkflowTaskUpdateBeforeV3.0.js
+| Program : WorkflowTaskUpdateBeforeV.js
 | Event   : WorkflowTaskUpdateBefore
 |
 | Usage   : Master Script by Accela.  See accompanying documentation and release notes.
@@ -26,8 +26,8 @@ var documentOnly = false;						// Document Only -- displays hierarchy of std cho
 /*------------------------------------------------------------------------------------------------------/
 | END User Configurable Parameters
 /------------------------------------------------------------------------------------------------------*/
-var SCRIPT_VERSION = 3.0;
-var useCustomScriptFile = true;  // if true, use Events->Custom Script, else use Events->Scripts->INCLUDES_CUSTOM
+var SCRIPT_VERSION = 9.0;
+var useCustomScriptFile = true;  // if true, use Events->Custom Script and Master Scripts, else use Events->Scripts->INCLUDES_*
 var useSA = false;
 var SA = null;
 var SAScript = null;
@@ -41,13 +41,26 @@ if (bzr.getSuccess() && bzr.getOutput().getAuditStatus() != "I") {
 	}
 }
 
+var controlFlagStdChoice = "EMSE_EXECUTE_OPTIONS";
+var doStdChoices = true; // compatibility default
+var doScripts = false;
+var bzr = aa.bizDomain.getBizDomain(controlFlagStdChoice).getOutput().size() > 0;
+if (bzr) {
+	var bvr1 = aa.bizDomain.getBizDomainByValue(controlFlagStdChoice, "STD_CHOICE");
+	doStdChoices = bvr1.getSuccess() && bvr1.getOutput().getAuditStatus() != "I";
+	var bvr1 = aa.bizDomain.getBizDomainByValue(controlFlagStdChoice, "SCRIPT");
+	doScripts = bvr1.getSuccess() && bvr1.getOutput().getAuditStatus() != "I";
+	var bvr3 = aa.bizDomain.getBizDomainByValue(controlFlagStdChoice, "USE_MASTER_INCLUDES");
+	if (bvr3.getSuccess()) {if(bvr3.getOutput().getDescription() == "No") useCustomScriptFile = false}; 
+}
+
 if (SA) {
-	eval(getScriptText("INCLUDES_ACCELA_FUNCTIONS", SA));
-	eval(getScriptText("INCLUDES_ACCELA_GLOBALS", SA));
+	eval(getScriptText("INCLUDES_ACCELA_FUNCTIONS", SA,useCustomScriptFile));
+	eval(getScriptText("INCLUDES_ACCELA_GLOBALS", SA,useCustomScriptFile));
 	eval(getScriptText(SAScript, SA));
 } else {
-	eval(getScriptText("INCLUDES_ACCELA_FUNCTIONS"));
-	eval(getScriptText("INCLUDES_ACCELA_GLOBALS"));
+	eval(getScriptText("INCLUDES_ACCELA_FUNCTIONS",null,useCustomScriptFile));
+	eval(getScriptText("INCLUDES_ACCELA_GLOBALS",null,useCustomScriptFile));
 }
 
 eval(getScriptText("INCLUDES_CUSTOM",null,useCustomScriptFile));
@@ -60,17 +73,6 @@ if (documentOnly) {
 }
 
 var prefix = lookup("EMSE_VARIABLE_BRANCH_PREFIX", vEventName);
-
-var controlFlagStdChoice = "EMSE_EXECUTE_OPTIONS";
-var doStdChoices = true; // compatibility default
-var doScripts = false;
-var bzr = aa.bizDomain.getBizDomain(controlFlagStdChoice).getOutput().size() > 0;
-if (bzr) {
-	var bvr1 = aa.bizDomain.getBizDomainByValue(controlFlagStdChoice, "STD_CHOICE");
-	doStdChoices = bvr1.getSuccess() && bvr1.getOutput().getAuditStatus() != "I";
-	var bvr1 = aa.bizDomain.getBizDomainByValue(controlFlagStdChoice, "SCRIPT");
-	doScripts = bvr1.getSuccess() && bvr1.getOutput().getAuditStatus() != "I";
-}
 
 function getScriptText(vScriptName, servProvCode, useProductScripts) {
 	if (!servProvCode)  servProvCode = aa.getServiceProviderCode();
@@ -100,6 +102,7 @@ var wfLastName = aa.env.getValue("StaffLastName");
 var wfFirstName = aa.env.getValue("StaffFirstName");
 var wfMiddleName = aa.env.getValue("StaffMiddleName");
 var wfProcessID = aa.env.getValue("ProcessID");
+var wfHours = aa.env.getValue("HoursSpent");
 if (wfMiddleName.length() == 0) wfMiddleName = null;
 var wfUserObj = aa.person.getUser(wfFirstName,wfMiddleName,wfLastName).getOutput();
 var wfUserId = " ";
@@ -107,7 +110,7 @@ if (wfUserObj) wfUserId = wfUserObj.getUserID();
 var wfDateMMDDYYYY = wfDate.substr(5,2) + "/" + wfDate.substr(8,2) + "/" + wfDate.substr(0,4);	// date of status of workflow that triggered event in format MM/DD/YYYY
 var sysDate = aa.date.getCurrentDate();
 var sysDateMMDDYYYY = dateFormatted(sysDate.getMonth(),sysDate.getDayOfMonth(),sysDate.getYear(),"");
-var wfStep ; var wfDue ; var wfProcess ; 		// Initialize
+var wfStep ; var wfDue ; var wfProcess ; var wfTaskObj;		// Initialize
 
 var wfObj = aa.workflow.getTasks(capId).getOutput();
 for (i in wfObj)
@@ -118,7 +121,7 @@ for (i in wfObj)
 		wfStep = fTask.getStepNumber();
 		wfProcess = fTask.getProcessCode();
 		wfDue = fTask.getDueDate();
-		wfTaskObj = fTask
+		wfTaskObj = fTask;
 		}
 	}
 
@@ -141,7 +144,9 @@ logDebug("wfStep = " + wfStep);
 logDebug("wfProcess = " + wfProcess);
 logDebug("wfStatus = " + wfStatus);
 logDebug("wfUserId = " + wfUserId);
-logDebug("wfTaskObj = " + wfTaskObj.getClass());
+if(wfTaskObj)
+	logDebug("wfTaskObj = " + wfTaskObj.getClass());
+logDebug("wfHours = " + wfHours);
 
 /* Added for version 1.7 */
 var wfStaffUserID = aa.env.getValue("StaffUserID");

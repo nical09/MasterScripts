@@ -1,3 +1,70 @@
+/**
+* Contact Object 
+* <p>
+* Properties: 
+*	people - PeopleModel Object
+*   capContact - CapContactModel Object
+*	capContactScript - CapContactScriptModel Object
+*	capId - capID Object
+*	type - Contact Type
+*	seqNumber - Transactional Seqence Number
+*	asi - associative array of people template attributes
+*	customFields - associative array of custom template fields
+*	customTables - Not yet implemented
+*	primary - Contact is Primary
+*	relation - Contact Relation
+*	addresses - associative array of address
+*	validAttrs - Boolean indicating people template attributes
+*	validCustomFields - Boolean indicating custom template fields
+*	validCustomTables - Not implemented yet
+*	infoTables - Table Array ex infoTables[name][row][column].getValue()
+*	attribs - Array of LP Attributes ex attribs[name]
+*	valid - Get the Attributes for LP
+*	validTables - true if LP has infoTables
+*	validAttrs - true if LP has attributes
+* </p>
+* <p>
+* Methods:
+*	toString() - Outputs a string of key contact fields 
+*	getEmailTemplateParams(params,[vContactType]) - Contact Parameters for use in Notification Templates
+*	replace(targetCapId) - send this contact to another record, optional new contact type
+*	equals(contactObj) - Compares this contact to another contact by comparing key elements
+*	saveBase() - Saves base information such as contact type, primary flag, relation
+*	save() - Saves all current information to the transactional contact
+*	syncCapContactToReference() - Synchronize the contact data from the record with the reference contact by pushing data from the record into reference.
+*	syncCapContactFromReference() - Synchronize the reference contact data with the contact on the record by pulling data from reference into the record.
+*	getAttribute(vAttributeName) - Get method for people template attributes
+*	setAttribute(vAttributeName, vAttributeValue) - Set method for people template attributes
+*	getCustomField(vFieldName) - Get method for Custom Template Fields
+*	setCustomField(vFieldName,vFieldValue) - Set method for Custom Template Fields
+*	remove() - Removes this contact from the transactional record
+*	isSingleAddressPerType() - Boolean indicating if this contact has a Single Addresss Per Type
+*	getAddressTypeCounts() - returns an associative array of how many adddresses are attached
+*	createPublicUser() - For individual contact types, this function checkes to see if public user exists already based on email address then creates a public user and activates it for the agency. It also sends an Activate email and sends a Password Email. If there is a reference contact, it will assocated it with the newly created public user.
+*	getCaps([record type filter]) - Returns an array of records related to the reference contact
+*	getRelatedContactObjs([record type filter]) - Returns an array of contact objects related to the reference contact
+*	getRelatedRefLicProfObjs() - Returns an array of Reference License Professional objects related to the reference contact
+*	createRefLicProf(licNum,rlpType,addressType,licenseState, [servProvCode]) - Creates a Reference License Professional based on the contact information. If this contact is linked to a Reference Contact, it will link the new Reference License Professional to the Reference Contact.
+*	linkRefContactWithRefLicProf(licnumber, [lictype]) - Link a Reference License Professional to the Reference Contact.
+*	getAKA() - Returns an array of AKA Names for the assocated reference contact
+*	addAKA(firstName,middleName,lastName,fullName,startDate,endDate) - Adds an AKA Name to the assocated reference contact
+*	removeAKA(firstName,middleName,lastName) - Removes an AKA Name from the assocated reference contact
+*	hasPublicUser() - Boolean indicating if the contact has an assocated public user account
+*	linkToPublicUser(pUserId) - Links the assocated reference contact to the public user account
+*	sendCreateAndLinkNotification() - Sends a Create and Link Notification using the PUBLICUSER CREATE AND LINK notification template to the contact for the scenario in AA where a paper application has been submitted
+*	getRelatedRefContacts([relConsArray]) - Returns an array of related reference contacts. An optional relationship types array can be used
+* </p>
+* <p>
+* Call Example:
+* 	var vContactObj = new contactObj(vCCSM);
+*	var contactRecordArray = vContactObj.getAssociatedRecords();
+*	var cParams = aa.util.newHashtable();
+*	vContactObj.getEmailTemplateParams(cParams);
+* </p>
+* @param ccsm {CapContactScriptModel}
+* @return {contactObj}
+*/
+
 function contactObj(ccsm)  {
 
     this.people = null;         // for access to the underlying data
@@ -9,10 +76,16 @@ function contactObj(ccsm)  {
     this.refSeqNumber = null;
     this.asiObj = null;
     this.asi = new Array();    // associative array of attributes
+	this.customFieldsObj = null;
+	this.customFields = new Array();
+	this.customTablesObj = null;
+	this.customTables = new Array();
     this.primary = null;
     this.relation = null;
     this.addresses = null;  // array of addresses
     this.validAttrs = false;
+	this.validCustomFields = false;
+	this.validCustomTables = false;
         
     this.capContactScript = ccsm;
     if (ccsm)  {
@@ -23,7 +96,7 @@ function contactObj(ccsm)  {
         else {
             this.capContact = ccsm.getCapContactModel();
             this.people = this.capContact.getPeople();
-			
+            this.refSeqNumber = this.capContact.getRefContactNumber();
 			// contact ASI
 			var tm = this.people.getTemplate();
 			if (tm)	{
@@ -43,14 +116,46 @@ function contactObj(ccsm)  {
 			}
 
 			// contact attributes
-            this.refSeqNumber = this.capContact.getRefContactNumber();
+			// Load People Template Fields
             if (this.people.getAttributes() != null) {
                 this.asiObj = this.people.getAttributes().toArray();
-                if (this.	Obj != null) {
+                if (this.asiObj != null) {
                     for (var xx1 in this.asiObj) this.asi[this.asiObj[xx1].attributeName] = this.asiObj[xx1];
                     this.validAttrs = true; 
                 }   
             }
+			// Load Custom Template Fields
+			if (this.capContact.getTemplate() != null && this.capContact.getTemplate().getTemplateForms() != null) {
+				var customTemplate = this.capContact.getTemplate();
+				this.customFieldsObj = customTemplate.getTemplateForms();
+				
+				for (var i = 0; i < this.customFieldsObj.size(); i++) {
+					var eachForm = this.customFieldsObj.get(i);
+
+					//Sub Group
+					var subGroup = eachForm.subgroups;
+
+					if (subGroup == null) {
+						continue;
+					}
+
+					for (var j = 0; j < subGroup.size(); j++) {
+						var eachSubGroup = subGroup.get(j);
+
+						if (eachSubGroup == null || eachSubGroup.fields == null) {
+							continue;
+						}
+
+						var allFields = eachSubGroup.fields;
+						for (var k = 0; k < allFields.size(); k++) {
+							var eachField = allFields.get(k);
+							this.customFields[eachField.displayFieldName] = eachField.defaultValue;
+							logDebug("(contactObj) {" + eachField.displayFieldName + "} = " +  eachField.defaultValue);
+							this.validCustomFields = true;
+						}
+					}
+				}
+			}
         }  
 
         //this.primary = this.capContact.getPrimaryFlag().equals("Y");
@@ -73,25 +178,28 @@ function contactObj(ccsm)  {
     }       
         this.toString = function() { return this.capId + " : " + this.type + " " + this.people.getLastName() + "," + this.people.getFirstName() + " (id:" + this.seqNumber + "/" + this.refSeqNumber + ") #ofAddr=" + this.addresses.length + " primary=" + this.primary;  }
         
-        this.getEmailTemplateParams = function (params) {
-            addParameter(params, "$$LastName$$", this.people.getLastName());
-            addParameter(params, "$$FirstName$$", this.people.getFirstName());
-            addParameter(params, "$$MiddleName$$", this.people.getMiddleName());
-            addParameter(params, "$$BusinesName$$", this.people.getBusinessName());
-            addParameter(params, "$$ContactSeqNumber$$", this.seqNumber);
+        this.getEmailTemplateParams = function (params, vContactType) {
+			var contactType = "";
+			if (arguments.length == 2) contactType = arguments[1];
+			
+            addParameter(params, "$$" + contactType + "LastName$$", this.people.getLastName());
+            addParameter(params, "$$" + contactType + "FirstName$$", this.people.getFirstName());
+            addParameter(params, "$$" + contactType + "MiddleName$$", this.people.getMiddleName());
+            addParameter(params, "$$" + contactType + "BusinesName$$", this.people.getBusinessName());
+            addParameter(params, "$$" + contactType + "ContactSeqNumber$$", this.seqNumber);
             addParameter(params, "$$ContactType$$", this.type);
-            addParameter(params, "$$Relation$$", this.relation);
-            addParameter(params, "$$Phone1$$", this.people.getPhone1());
-            addParameter(params, "$$Phone2$$", this.people.getPhone2());
-            addParameter(params, "$$Email$$", this.people.getEmail());
-            addParameter(params, "$$AddressLine1$$", this.people.getCompactAddress().getAddressLine1());
-            addParameter(params, "$$AddressLine2$$", this.people.getCompactAddress().getAddressLine2());
-            addParameter(params, "$$City$$", this.people.getCompactAddress().getCity());
-            addParameter(params, "$$State$$", this.people.getCompactAddress().getState());
-            addParameter(params, "$$Zip$$", this.people.getCompactAddress().getZip());
-            addParameter(params, "$$Fax$$", this.people.getFax());
-            addParameter(params, "$$Country$$", this.people.getCompactAddress().getCountry());
-            addParameter(params, "$$FullName$$", this.people.getFullName());
+            addParameter(params, "$$" + contactType + "Relation$$", this.relation);
+            addParameter(params, "$$" + contactType + "Phone1$$", this.people.getPhone1());
+            addParameter(params, "$$" + contactType + "Phone2$$", this.people.getPhone2());
+            addParameter(params, "$$" + contactType + "Email$$", this.people.getEmail());
+            addParameter(params, "$$" + contactType + "AddressLine1$$", this.people.getCompactAddress().getAddressLine1());
+            addParameter(params, "$$" + contactType + "AddressLine2$$", this.people.getCompactAddress().getAddressLine2());
+            addParameter(params, "$$" + contactType + "City$$", this.people.getCompactAddress().getCity());
+            addParameter(params, "$$" + contactType + "State$$", this.people.getCompactAddress().getState());
+            addParameter(params, "$$" + contactType + "Zip$$", this.people.getCompactAddress().getZip());
+            addParameter(params, "$$" + contactType + "Fax$$", this.people.getFax());
+            addParameter(params, "$$" + contactType + "Country$$", this.people.getCompactAddress().getCountry());
+            addParameter(params, "$$" + contactType + "FullName$$", this.people.getFullName());
             return params;
             }
         
@@ -165,6 +273,37 @@ function contactObj(ccsm)  {
             else
                 logDebug("(contactObj) error saving contact : " + this + " : " + saveResult.getErrorMessage());
             }
+			
+		this.syncCapContactToReference = function() {
+			
+			if(this.refSeqNumber){
+				var vRefContPeopleObj = aa.people.getPeople(this.refSeqNumber).getOutput();
+				var saveResult = aa.people.syncCapContactToReference(this.capContact,vRefContPeopleObj);
+				if (saveResult.getSuccess())
+					logDebug("(contactObj) syncCapContactToReference : " + this);
+				else
+					logDebug("(contactObj) error syncCapContactToReference : " + this + " : " + saveResult.getErrorMessage());
+			}
+			else{
+				logDebug("(contactObj) error syncCapContactToReference : No Reference Contact to Syncronize With");
+			}
+            
+		}
+		this.syncCapContactFromReference = function() {
+			
+			if(this.refSeqNumber){
+				var vRefContPeopleObj = aa.people.getPeople(this.refSeqNumber).getOutput();
+				var saveResult = aa.people.syncCapContactFromReference(this.capContact,vRefContPeopleObj);
+				if (saveResult.getSuccess())
+					logDebug("(contactObj) syncCapContactFromReference : " + this);
+				else
+					logDebug("(contactObj) error syncCapContactFromReference : " + this + " : " + saveResult.getErrorMessage());
+			}
+			else{
+				logDebug("(contactObj) error syncCapContactFromReference : No Reference Contact to Syncronize With");
+			}
+            
+		}
 
         //get method for Attributes
         this.getAttribute = function (vAttributeName){
@@ -179,13 +318,63 @@ function contactObj(ccsm)  {
         
         //Set method for Attributes
         this.setAttribute = function(vAttributeName,vAttributeValue){
-            var retVal = false;
+			var retVal = false;
             if(this.validAttrs){
                 var tmpVal = this.asi[vAttributeName.toString().toUpperCase()];
                 if(tmpVal != null){
                     tmpVal.setAttributeValue(vAttributeValue);
                     retVal = true;
                 }
+            }
+            return retVal;
+        }
+		
+		//get method for Custom Template Fields
+        this.getCustomField = function(vFieldName){
+            var retVal = null;
+            if(this.validCustomFields){
+                var tmpVal = this.customFields[vFieldName.toString()];
+                if(!matches(tmpVal,undefined,null,"")){
+                    retVal = tmpVal;
+				}
+            }
+            return retVal;
+        }
+		
+		//Set method for Custom Template Fields
+        this.setCustomField = function(vFieldName,vFieldValue){
+            
+            var retVal = false;
+            if(this.validCustomFields){
+				
+				for (var i = 0; i < this.customFieldsObj.size(); i++) {
+					var eachForm = this.customFieldsObj.get(i);
+
+					//Sub Group
+					var subGroup = eachForm.subgroups;
+
+					if (subGroup == null) {
+						continue;
+					}
+
+					for (var j = 0; j < subGroup.size(); j++) {
+						var eachSubGroup = subGroup.get(j);
+
+						if (eachSubGroup == null || eachSubGroup.fields == null) {
+							continue;
+						}
+
+						var allFields = eachSubGroup.fields;
+						for (var k = 0; k < allFields.size(); k++) {
+							var eachField = allFields.get(k);
+							if(eachField.displayFieldName == vFieldName){
+							logDebug("(contactObj) updating custom field {" + eachField.displayFieldName + "} = " +  eachField.defaultValue + " to " + vFieldValue);
+							eachField.setDefaultValue(vFieldValue);
+							retVal = true;
+							}
+						}
+					}
+				}
             }
             return retVal;
         }
@@ -330,7 +519,7 @@ function contactObj(ccsm)  {
         
             if (this.refSeqNumber) {
                 aa.print("ref seq : " + this.refSeqNumber);
-                var capTypes = null;
+                var capTypes = "*/*/*/*";
                 var resultArray = new Array();
                 if (arguments.length == 1) capTypes = arguments[0];
 
@@ -343,11 +532,11 @@ function contactObj(ccsm)  {
                 
                 for (var j in cList) {
                     var thisCapId = aa.cap.getCapID(cList[j].getCapID().getID1(),cList[j].getCapID().getID2(),cList[j].getCapID().getID3()).getOutput();
-                    if (capTypes && appMatch(capTypes,thisCapId)) {
+                    if (appMatch(capTypes,thisCapId)) {
                         resultArray.push(thisCapId)
                         }
                     }
-            }
+				} 
             
         return resultArray;
         }
@@ -379,7 +568,107 @@ function contactObj(ccsm)  {
         return resultArray;
         }
         
-        
+		this.getRelatedRefLicProfObjs = function(){
+			
+			var refLicProfObjArray = new Array();
+			
+			// optional 2rd parameter serv_prov_code
+				var updating = false;
+				var serv_prov_code_4_lp = aa.getServiceProviderCode();
+				if (arguments.length == 1) {
+					serv_prov_code_4_lp = arguments[0];
+					}
+		
+			if(this.refSeqNumber && serv_prov_code_4_lp)
+			{
+			  var xRefContactEntity = aa.people.getXRefContactEntityModel().getOutput();
+			  xRefContactEntity.setServiceProviderCode(serv_prov_code_4_lp);
+			  xRefContactEntity.setContactSeqNumber(parseInt(this.refSeqNumber));
+			  xRefContactEntity.setEntityType("PROFESSIONAL");
+			  //xRefContactEntity.setEntityID1(parseInt(refLicProfSeq));
+			  var auditModel = xRefContactEntity.getAuditModel();
+			  auditModel.setAuditDate(new Date());
+			  auditModel.setAuditID(currentUserID);
+			  auditModel.setAuditStatus("A")
+			  xRefContactEntity.setAuditModel(auditModel);
+			  var xRefContactEntityBusiness = aa.proxyInvoker.newInstance("com.accela.aa.aamain.people.XRefContactEntityBusiness").getOutput();
+			  var xRefContactEntList = xRefContactEntityBusiness.getXRefContactEntityList(xRefContactEntity);
+			  var xRefContactEntArray = xRefContactEntList.toArray();
+			  if(xRefContactEntArray)
+			  {
+				 for(iLP in xRefContactEntArray){
+					 var xRefContactEnt = xRefContactEntArray[iLP];
+					 var lpSeqNbr = xRefContactEnt.getEntityID1();
+					 var lpObjResult = aa.licenseScript.getRefLicenseProfBySeqNbr(aa.getServiceProviderCode(),lpSeqNbr);
+					 var refLicNum = lpObjResult.getOutput().getStateLicense();
+					 
+					 refLicProfObjArray.push(new licenseProfObject(refLicNum));
+				 
+				 }
+				
+			  }
+			  else
+			  {
+				  logDebug("(contactObj.getRelatedRefLicProfObjs) - No Related Reference License License Professionals");
+			  }
+			  
+			  return refLicProfObjArray;
+			}
+			else
+			{
+			  logDebug("(contactObj.getRelatedRefLicProfObjs) Some Parameters were empty - unable to get related LPs");
+			}
+
+		}
+		
+		this.linkRefContactWithRefLicProf = function(licnumber, lictype){
+			
+			var lpObj = new licenseProfObject(licnumber,lictype);
+			var refLicProfSeq = lpObj.refLicModel.getLicSeqNbr();
+			// optional 2rd parameter serv_prov_code
+				var updating = false;
+				var serv_prov_code_4_lp = aa.getServiceProviderCode();
+				if (arguments.length == 3) {
+					serv_prov_code_4_lp = arguments[2];
+					}
+		
+			if(this.refSeqNumber && refLicProfSeq && serv_prov_code_4_lp)
+			{
+			  var xRefContactEntity = aa.people.getXRefContactEntityModel().getOutput();
+			  xRefContactEntity.setServiceProviderCode(serv_prov_code_4_lp);
+			  xRefContactEntity.setContactSeqNumber(parseInt(this.refSeqNumber));
+			  xRefContactEntity.setEntityType("PROFESSIONAL");
+			  xRefContactEntity.setEntityID1(parseInt(refLicProfSeq));
+			  var auditModel = xRefContactEntity.getAuditModel();
+			  auditModel.setAuditDate(new Date());
+			  auditModel.setAuditID(currentUserID);
+			  auditModel.setAuditStatus("A")
+			  xRefContactEntity.setAuditModel(auditModel);
+			  var xRefContactEntityBusiness = aa.proxyInvoker.newInstance("com.accela.aa.aamain.people.XRefContactEntityBusiness").getOutput();
+			  var existedModel = xRefContactEntityBusiness.getXRefContactEntityByUIX(xRefContactEntity);
+			  if(existedModel.getContactSeqNumber())
+			  {
+				logDebug("(contactObj) The License Professional has been linked to the Reference Contact.");
+			  }
+			  else
+			  {
+				var XRefContactEntityCreatedResult = xRefContactEntityBusiness.createXRefContactEntity(xRefContactEntity);
+				if (XRefContactEntityCreatedResult)
+				{
+				  logDebug("(contactObj) The License Professional has been linked to the Reference Contact.");
+				}
+				else
+				{
+				  logDebug("(contactObj) **ERROR:License professional failed to link to reference contact.  Reason: " +  XRefContactEntityCreatedResult.getErrorMessage());
+				}
+			  }
+			}
+			else
+			{
+			  logDebug("(contactObj.linkRefContactWithRefLicProf) Some Parameters are empty - License professional failed to link to reference contact.");
+			}
+
+		}
         
         this.createRefLicProf = function(licNum,rlpType,addressType,licenseState) {
             
@@ -392,7 +681,7 @@ function contactObj(ccsm)  {
                 }
             
             // addressType = one of the contact address types, or null to pull from the standard contact fields.
-            var newLic = getRefLicenseProf(licNum);
+            var newLic = getRefLicenseProf(licNum,rlpType);
 
             if (newLic) {
                 updating = true;
@@ -427,7 +716,7 @@ function contactObj(ccsm)  {
 
             if (addressType) {
                 for (var i in this.addresses) {
-                    cAddr = this.addresses[i];
+                    var cAddr = this.addresses[i];
                     if (addressType.equals(cAddr.getAddressType())) {
                         addr = cAddr;
                     }
@@ -444,10 +733,18 @@ function contactObj(ccsm)  {
             if (addr.getZip() != null) newLic.setZip(addr.getZip());
             if (addr.getCountryCode() != null) newLic.getLicenseModel().setCountryCode(addr.getCountryCode());
             
-            if (updating)
+            if (updating){
                 myResult = aa.licenseScript.editRefLicenseProf(newLic);
-            else
+				
+			}
+            else{
                 myResult = aa.licenseScript.createRefLicenseProf(newLic);
+				if (myResult.getSuccess())
+                {
+					var newRefLicSeqNbr = parseInt(myResult.getOutput());
+					this.linkRefContactWithRefLicProf(licNum,rlpType,serv_prov_code_4_lp);
+				}
+			}
 
             if (arguments.length == 5) {
                 aa.resetDelegateAgencyCode();
@@ -672,5 +969,3 @@ function contactObj(ccsm)  {
             return relConsArray;
         }
     }
-	
-	

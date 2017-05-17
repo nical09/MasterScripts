@@ -1,6 +1,6 @@
 /*------------------------------------------------------------------------------------------------------/
 | SVN $Id: WorkflowTaskUpdateAfter.js 6515 2012-03-16 18:15:38Z john.schomp $
-| Program : WorkflowTaskUpdateAfterV2.0.js
+| Program : WorkflowTaskUpdateAfter.js
 | Event   : WorkflowTaskUpdateAfter
 |
 | Usage   : Master Script by Accela.  See accompanying documentation and release notes.
@@ -26,8 +26,8 @@ var documentOnly = false;						// Document Only -- displays hierarchy of std cho
 /*------------------------------------------------------------------------------------------------------/
 | END User Configurable Parameters
 /------------------------------------------------------------------------------------------------------*/
-var SCRIPT_VERSION = 3.0;
-var useCustomScriptFile = true;  // if true, use Events->Custom Script, else use Events->Scripts->INCLUDES_CUSTOM
+var SCRIPT_VERSION = 9.0;
+var useCustomScriptFile = true;  // if true, use Events->Custom Script and Master Scripts, else use Events->Scripts->INCLUDES_*
 var useSA = false;
 var SA = null;
 var SAScript = null;
@@ -41,13 +41,26 @@ if (bzr.getSuccess() && bzr.getOutput().getAuditStatus() != "I") {
 	}
 }
 
+var controlFlagStdChoice = "EMSE_EXECUTE_OPTIONS";
+var doStdChoices = true; // compatibility default
+var doScripts = false;
+var bzr = aa.bizDomain.getBizDomain(controlFlagStdChoice).getOutput().size() > 0;
+if (bzr) {
+	var bvr1 = aa.bizDomain.getBizDomainByValue(controlFlagStdChoice, "STD_CHOICE");
+	doStdChoices = bvr1.getSuccess() && bvr1.getOutput().getAuditStatus() != "I";
+	var bvr1 = aa.bizDomain.getBizDomainByValue(controlFlagStdChoice, "SCRIPT");
+	doScripts = bvr1.getSuccess() && bvr1.getOutput().getAuditStatus() != "I";
+	var bvr3 = aa.bizDomain.getBizDomainByValue(controlFlagStdChoice, "USE_MASTER_INCLUDES");
+	if (bvr3.getSuccess()) {if(bvr3.getOutput().getDescription() == "No") useCustomScriptFile = false}; 
+}
+
 if (SA) {
-	eval(getScriptText("INCLUDES_ACCELA_FUNCTIONS", SA));
-	eval(getScriptText("INCLUDES_ACCELA_GLOBALS", SA));
+	eval(getScriptText("INCLUDES_ACCELA_FUNCTIONS", SA,useCustomScriptFile));
+	eval(getScriptText("INCLUDES_ACCELA_GLOBALS", SA,useCustomScriptFile));
 	eval(getScriptText(SAScript, SA));
 } else {
-	eval(getScriptText("INCLUDES_ACCELA_FUNCTIONS"));
-	eval(getScriptText("INCLUDES_ACCELA_GLOBALS"));
+	eval(getScriptText("INCLUDES_ACCELA_FUNCTIONS",null,useCustomScriptFile));
+	eval(getScriptText("INCLUDES_ACCELA_GLOBALS",null,useCustomScriptFile));
 }
 
 eval(getScriptText("INCLUDES_CUSTOM",null,useCustomScriptFile));
@@ -60,17 +73,6 @@ if (documentOnly) {
 }
 
 var prefix = lookup("EMSE_VARIABLE_BRANCH_PREFIX", vEventName);
-
-var controlFlagStdChoice = "EMSE_EXECUTE_OPTIONS";
-var doStdChoices = true; // compatibility default
-var doScripts = false;
-var bzr = aa.bizDomain.getBizDomain(controlFlagStdChoice).getOutput().size() > 0;
-if (bzr) {
-	var bvr1 = aa.bizDomain.getBizDomainByValue(controlFlagStdChoice, "STD_CHOICE");
-	doStdChoices = bvr1.getSuccess() && bvr1.getOutput().getAuditStatus() != "I";
-	var bvr1 = aa.bizDomain.getBizDomainByValue(controlFlagStdChoice, "SCRIPT");
-	doScripts = bvr1.getSuccess() && bvr1.getOutput().getAuditStatus() != "I";
-}
 
 function getScriptText(vScriptName, servProvCode, useProductScripts) {
 	if (!servProvCode)  servProvCode = aa.getServiceProviderCode();
@@ -96,7 +98,7 @@ var wfStatus = aa.env.getValue("WorkflowStatus");			// Status of workflow that t
 var wfDate = aa.env.getValue("WorkflowStatusDate");			// date of status of workflow that triggered event
 var wfDateMMDDYYYY = wfDate.substr(5,2) + "/" + wfDate.substr(8,2) + "/" + wfDate.substr(0,4);	// date of status of workflow that triggered event in format MM/DD/YYYY
 var wfProcessID = aa.env.getValue("ProcessID");				// Process ID of workflow
-var wfStep ; var wfComment ; var wfNote ; var wfDue ; var wfHours;			// Initialize
+var wfStep ; var wfComment ; var wfNote ; var wfDue ; var wfHours;	var wfActionBy;	var wfActionByObj; var wfActionByUserID = "";	var wfActionByDept = "";	// Initialize
 var wfProcess ; 							// Initialize
 // Go get other task details
 var wfObj = aa.workflow.getTasks(capId).getOutput();
@@ -107,13 +109,21 @@ for (i in wfObj)
 		{
 		wfStep = fTask.getStepNumber();
 		wfProcess = fTask.getProcessCode();
+		wfActionBy = fTask.getTaskItem().getSysUser();
+		wfActionByObj = aa.person.getUser(wfActionBy.getFirstName(), wfActionBy.getMiddleName(), wfActionBy.getLastName()).getOutput();
 		wfComment = fTask.getDispositionComment();
 		wfNote = fTask.getDispositionNote();
 		wfDue = fTask.getDueDate();
 		wfHours = fTask.getHoursSpent();
-		wfTaskObj = fTask
+		wfTaskObj = fTask;
 		}
 	}
+	
+if (wfActionByObj) {
+		var wfActionByUserID = wfActionByObj.getUserID();
+		var wfActionByDept = wfActionByObj.getDeptOfUser();
+	}
+	
 logDebug("wfTask = " + wfTask);
 logDebug("wfTaskObj = " + wfTask.getClass());
 logDebug("wfStatus = " + wfStatus);
@@ -123,6 +133,8 @@ logDebug("wfStep = " + wfStep);
 logDebug("wfComment = " + wfComment);
 logDebug("wfProcess = " + wfProcess);
 logDebug("wfNote = " + wfNote);
+logDebug("wfActionByUserID = " + wfActionByUserID);
+logDebug("wfActionByDept = " + wfActionByDept);
 
 /* Added for version 1.7 */
 var wfStaffUserID = aa.env.getValue("StaffUserID");

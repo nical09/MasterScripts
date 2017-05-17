@@ -6,7 +6,7 @@ function countActiveTasks(processName) {
 	if (countResult.getSuccess())
 		numOpen = countResult.getOutput().intValue();
 	else {
-		logMessage("**ERROR: Failed to get task count: " + s_capResult.getErrorMessage());
+		logMessage("**ERROR: Failed to get task count: " + countResult.getErrorMessage());
 		return false;
 	}
 

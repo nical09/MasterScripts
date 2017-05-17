@@ -5,8 +5,9 @@ function generateReport(itemCap,reportName,module,parameters) {
   var report = aa.reportManager.getReportInfoModelByName(reportName);
   report = report.getOutput();
   report.setModule(module);
-  report.setCapId(itemCap.getCustomID());
-  report.setReportParameters(parameters); 
+  report.setCapId(itemCap.getID1() + "-" + itemCap.getID2() + "-" + itemCap.getID3());
+  report.setReportParameters(parameters);
+  report.getEDMSEntityIdModel().setAltId(itemCap.getCustomID());
 
   var permit = aa.reportManager.hasPermission(reportName,user);
 

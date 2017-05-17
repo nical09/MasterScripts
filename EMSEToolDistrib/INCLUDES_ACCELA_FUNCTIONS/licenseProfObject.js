@@ -1,3 +1,49 @@
+/**
+* License Professional Object 
+* <p>
+* Properties: 
+*	refLicModel - Reference LP Model
+*	infoTables - Table Array ex infoTables[name][row][column].getValue()
+*	attribs - Array of LP Attributes ex attribs[name]
+*	valid - Get the Attributes for LP
+*	validTables - true if LP has infoTables
+*	validAttrs - true if LP has attributes
+* </p>
+* <p>
+* Methods: 
+*	getEmailTemplateParams(params,[vLicenseType]) - LP Parameters for use in Notification Templates
+*	refreshTables() - Get all the Table Values, done this way to keep it clean when a row is added
+*	getMaxRowByTable(vTableName) - Get max row from table for sequencing
+*	addTableRow(vTableName, vValueArray) - Add Row to Table
+*	addTableFromASIT(vTableName, vASITArray) - Process an ASIT row into People Info
+*	removeTableRow(vTableName, vRowIndex) - Remove Row from Table
+*	removeTable(vTableName) - Remove Table
+*	setTableEnabledFlag(vTableName, vRowIndex, isEnabled) - Enable or Disable Table Row by index
+*	setDisplayInACA4Table(vTableName, vIsVisible) - Makes table visible in ACA Lookup ('Y'/'N')
+*	getAttribute(vAttributeName) - Get method for attributes
+*	setAttribute(vAttributeName, vAttributeValue) - Set method for attributes
+*	setPrimary(vCapId,vPrimary) - Sets the Primary flag on the Record License Professional ('Y'/'N')
+*	updateFromRecordContactByType(vCapId, vContactType, vUpdateAddress, vUpdatePhoneEmail, [vAddressType]) - Update From Record Contact by Contact Type, uses first contact of type found. If contactType == "" then uses primary. If vAddressType is popualted it will use contact address list rather than compact address
+*	updateFromAddress(vCapId) - Updates Reference License Prof address to the primary address on the record
+*	updateFromRecordLicensedProf(vCapId) - Update Reference LP from Record Licensed Prof
+*	copyToRecord(vCapId, vReplace) - Copy Reference Licensed Professional to a Record
+*	enable() - Enable the Ref License Professional
+*	disable() - Disable the Ref License Professional
+*	getAssociatedRecords() - Returns an array of associated Record IDs
+*	updateRecord() - Save Changes to this object to Reference Licensed Professional
+* </p>
+* <p>
+* Call Example:
+* 	var lPObj = new licenseProfObject("16LIC-00001","General Contractor");
+*	var lpRecordArray = lPObj.getAssociatedRecords();
+*	var lpParams = aa.util.newHashtable();
+*	lPObj.getEmailTemplateParams(lpParams);
+* </p>
+* @param licnumber {String} license number
+* @param [lictype] {String} license type (optional)
+* @return {licenseProfObject}
+*/
+
 function licenseProfObject(licnumber, lictype) {
 	//Populate the License Model
 	this.refLicModel = null; //Reference LP Model
@@ -24,7 +70,7 @@ function licenseProfObject(licnumber, lictype) {
 					break;
 				}
 	}
-
+	
 	//Get the People Info Tables
 	if (this.refLicModel != null) {
 		this.infoTableGroupCodeObj = this.refLicModel.getInfoTableGroupCodeModel();
@@ -66,6 +112,41 @@ function licenseProfObject(licnumber, lictype) {
 	//Set flags that can be used for validation
 	this.validTables = (this.infoTableSubGroupCodesObj != null);
 	this.valid = (this.refLicModel != null);
+	
+	this.getEmailTemplateParams = function (params,vLicenseType) {
+		var vLicType = lictype;
+		if (arguments.length == 2) vLicType = arguments[1];
+		
+		addParameter(params, "$$" + vLicType + "LastName$$", this.refLicModel.getContactLastName());
+		addParameter(params, "$$" + vLicType + "FirstName$$", this.refLicModel.getContactFirstName());
+		addParameter(params, "$$" + vLicType + "MiddleName$$", this.refLicModel.getContactMiddleName());
+		addParameter(params, "$$" + vLicType + "BusinesName$$", this.refLicModel.getBusinessName());
+		addParameter(params, "$$" + vLicType + "BusinesLicense$$", this.refLicModel.getBusinessLicense());
+		addParameter(params, "$$" + vLicType + "BusinesName2$$", this.refLicModel.getBusinessName2());
+		addParameter(params, "$$" + vLicType + "LicSeqNbr$$", this.refLicModel.getLicSeqNbr());
+		addParameter(params, "$$" + vLicType + "$$", this.refLicModel.getLicenseType());
+		addParameter(params, "$$" + vLicType + "LicenseState$$", this.refLicModel.getLicState());
+		addParameter(params, "$$" + vLicType + "LicenseExpirationDate$$", this.refLicModel.getLicenseExpirationDate());
+		addParameter(params, "$$" + vLicType + "LicenseInsuranceExpDate$$", this.refLicModel.getInsuranceExpDate()); 
+		addParameter(params, "$$" + vLicType + "LicenseIssueDate$$", this.refLicModel.getLicenseIssueDate()); 
+		addParameter(params, "$$" + vLicType + "Phone1$$", this.refLicModel.getPhone1());
+		addParameter(params, "$$" + vLicType + "Phone2$$", this.refLicModel.getPhone2());
+		addParameter(params, "$$" + vLicType + "Phone3$$", this.refLicModel.getPhone3());
+		addParameter(params, "$$" + vLicType + "Email$$", this.refLicModel.getEMailAddress());
+		addParameter(params, "$$" + vLicType + "AddressLine1$$", this.refLicModel.getAddress1());
+		addParameter(params, "$$" + vLicType + "AddressLine2$$", this.refLicModel.getAddress2());
+		addParameter(params, "$$" + vLicType + "AddressLine3$$", this.refLicModel.getAddress3());
+		addParameter(params, "$$" + vLicType + "City$$", this.refLicModel.getCity());
+		addParameter(params, "$$" + vLicType + "State$$", this.refLicModel.getState());
+		addParameter(params, "$$" + vLicType + "Zip$$", this.refLicModel.getZip());
+		addParameter(params, "$$" + vLicType + "Fax$$", this.refLicModel.getFax());
+		addParameter(params, "$$" + vLicType + "Country$$", this.refLicModel.getCountry());
+		addParameter(params, "$$" + vLicType + "WcExpDate$$", this.refLicModel.getWcExpDate());
+		addParameter(params, "$$" + vLicType + "WcPolicyNo$$", this.refLicModel.getWcPolicyNo());
+		addParameter(params, "$$" + vLicType + "WcInsCoCode$$", this.refLicModel.getWcInsCoCode());
+		return params;
+
+	}
 
 	//Get all the Table Values, done this way to keep it clean when a row is added
 	//Can also be used to refresh manually
@@ -312,11 +393,36 @@ function licenseProfObject(licnumber, lictype) {
 		}
 		return retVal;
 	}
+	
+	this.setPrimary = function(vCapId,vPrimary){
+		//Get the LP from the Record
+	
+		if (this.valid) {
+			var capLicenseResult = aa.licenseProfessional.getLicenseProf(vCapId);
+			var capLicenseArr = new Array();
+			var existing = false;
+			if (capLicenseResult.getSuccess()) {
+				capLicenseArr = capLicenseResult.getOutput();
+			}
+
+			if (capLicenseArr != null) {
+				for (capLic in capLicenseArr) {
+					var lpsm = capLicenseArr[capLic];
+					if (lpsm.getLicenseNbr() + "" == this.refLicModel.getStateLicense() + ""
+						 && lpsm.getLicenseType() + "" == this.refLicModel.getLicenseType() + "") {
+							lpsm.setPrintFlag(vPrimary ? "Y" : "N");
+							aa.licenseProfessional.editLicensedProfessional(lpsm);
+					}
+				}
+			}
+		}
+	}
 
 	//Update From Record Contact by Contact Type
 	//Uses first contact of type found
 	//If contactType == "" then uses primary
-	this.updateFromRecordContactByType = function (vCapId, vContactType, vUpdateAddress, vUpdatePhoneEmail) {
+	//If vAddressType is popualted it will use contact address list rather than compact address
+	this.updateFromRecordContactByType = function (vCapId, vContactType, vUpdateAddress, vUpdatePhoneEmail, vAddressType) {
 		this.retVal = false;
 		if (this.valid) {
 			var conArr = new Array();
@@ -336,18 +442,49 @@ function licenseProfObject(licnumber, lictype) {
 					cont = conArr[contact];
 					peop = cont.getPeople();
 					addr = peop.getCompactAddress();
+					
 
 					this.refLicModel.setContactFirstName(cont.getFirstName());
 					this.refLicModel.setContactMiddleName(peop.getMiddleName()); //get mid from peop
 					this.refLicModel.setContactLastName(cont.getLastName());
 					this.refLicModel.setBusinessName(peop.getBusinessName());
-					if (vUpdateAddress) {
+					if (vUpdateAddress && vAddressType == null) {
+						// Use Compact Address
 						this.refLicModel.setAddress1(addr.getAddressLine1());
 						this.refLicModel.setAddress2(addr.getAddressLine2());
 						this.refLicModel.setAddress3(addr.getAddressLine3());
 						this.refLicModel.setCity(addr.getCity());
 						this.refLicModel.setState(addr.getState());
 						this.refLicModel.setZip(addr.getZip());
+					}
+					if(vUpdateAddress && vAddressType){
+						// Use Contact Address List
+						var capContactModel = cont.getCapContactModel(); 
+						var contactAddressListResult = aa.address.getContactAddressListByCapContact(capContactModel);
+						
+						if (contactAddressListResult.getSuccess()) { 
+						var contactAddressList = contactAddressListResult.getOutput();
+						foundAddressType = false;
+							for (var x in contactAddressList) {
+								var cal= contactAddressList[x];
+								var addrType = cal.getAddressType();
+								logDebug("Contact Address Type: " + addrType);
+								if (addrType == vAddressType) {
+									foundAddressType = true;
+									contactAddressID = cal.getAddressID();
+									cResult = aa.address.getContactAddressByPK(cal.getContactAddressModel());
+									if (cResult.getSuccess()) {
+										casm = cResult.getOutput(); // contactAddressScriptModel
+										//aa.print(casm);
+										this.refLicModel.setAddress1(casm.getAddressLine1());
+										this.refLicModel.setAddress2(casm.getAddressLine2());
+										this.refLicModel.setCity(casm.getCity());
+										this.refLicModel.setState(casm.getState());
+										this.refLicModel.setZip(casm.getZip());
+									}
+								}
+							}	
+						}
 					}
 					if (vUpdatePhoneEmail) {
 						this.refLicModel.setPhone1(peop.getPhone1());

@@ -19,7 +19,7 @@ function resultWorkflowTask(wfstr, wfstat, wfcomment, wfnote) // optional proces
 	if (workflowResult.getSuccess())
 		var wfObj = workflowResult.getOutput();
 	else {
-		logMessage("**ERROR: Failed to get workflow object: " + s_capResult.getErrorMessage());
+		logMessage("**ERROR: Failed to get workflow object: " + workflowResult.getErrorMessage());
 		return false;
 	}
 

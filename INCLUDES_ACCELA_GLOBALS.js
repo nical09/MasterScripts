@@ -24,7 +24,7 @@ var maxEntries = 99;			// Maximum number of std choice entries.  Entries must be
 /*------------------------------------------------------------------------------------------------------/
 | END User Configurable Parameters
 /------------------------------------------------------------------------------------------------------*/
-var GLOBAL_VERSION = 3.0;
+var GLOBAL_VERSION = "3.2.2";
 
 var cancel = false;
 
@@ -72,6 +72,7 @@ var capId = null,
 	cap = null,
 	capIDString = "",
 	appTypeResult = null,
+	appTypeAlias = "",
 	appTypeString = "",
 	appTypeArray = new Array(),
 	capName = null,
@@ -105,12 +106,20 @@ if(capId == null){
 		sca = String(aa.env.getValue("CapID")).split("-");
 		capId = aa.cap.getCapID(sca[0],sca[1],sca[2]).getOutput();
 	}
+	else if(aa.env.getValue("CapModel") != "") {
+		var capId = aa.env.getValue("CapModel").getCapID();
+	}
+	else if(aa.env.getValue("CapIdModel") != "") {
+		var capId = aa.env.getValue("CapIdModel");
+	}
 }
+
 if(capId != null){
 	servProvCode = capId.getServiceProviderCode();
 	capIDString = capId.getCustomID();
 	cap = aa.cap.getCap(capId).getOutput();
 	appTypeResult = cap.getCapType();
+	appTypeAlias = appTypeResult.getAlias();
 	appTypeString = appTypeResult.toString();
 	appTypeArray = appTypeString.split("/");
 	if(appTypeArray[0].substr(0,1) !="_") 
@@ -156,6 +165,7 @@ if(capId != null){
 	logDebug("currentUserGroup = " + currentUserGroup);
 	logDebug("systemUserObj = " + systemUserObj.getClass());
 	logDebug("appTypeString = " + appTypeString);
+	logDebug("appTypeAlias = " + appTypeAlias);
 	logDebug("capName = " + capName);
 	logDebug("capStatus = " + capStatus);
 	logDebug("fileDate = " + fileDate);

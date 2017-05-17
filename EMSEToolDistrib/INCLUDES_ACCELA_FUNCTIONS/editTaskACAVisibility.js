@@ -18,7 +18,7 @@ function editTaskACAVisibility(wfstr,visibleTask,visibleComment,restrictRole) //
  	if (workflowResult.getSuccess())
   	 	var wfObj = workflowResult.getOutput();
   	else
-  	  	{ logMessage("**ERROR: Failed to get workflow object: " + s_capResult.getErrorMessage()); return false; }
+  	  	{ logMessage("**ERROR: Failed to get workflow object: " + workflowResult.getErrorMessage()); return false; }
 	
 	for (i in wfObj)
 		{

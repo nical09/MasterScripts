@@ -15,7 +15,7 @@ function getTaskDueDate(wfstr) // optional process name.
 	if (workflowResult.getSuccess())
 		wfObj = workflowResult.getOutput();
 	else {
-		logMessage("**ERROR: Failed to get workflow object: " + s_capResult.getErrorMessage());
+		logMessage("**ERROR: Failed to get workflow object: " + workflowResult.getErrorMessage());
 		return false;
 	}
 

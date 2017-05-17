@@ -13,7 +13,7 @@ function updateTaskDepartment(wfstr, wfDepartment) // optional process name
 	if (workflowResult.getSuccess())
 		wfObj = workflowResult.getOutput();
 	else {
-		logDebug("**ERROR: Failed to get workflow object: " + s_capResult.getErrorMessage());
+		logDebug("**ERROR: Failed to get workflow object: " + workflowResult.getErrorMessage());
 		return false;
 	}
 
